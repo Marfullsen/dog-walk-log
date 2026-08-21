@@ -189,14 +189,6 @@
     z-index: 3;
   }
 
-  .paw-corner {
-    position: absolute;
-    right: 6px;
-    bottom: 4px;
-    color: var(--navy);
-    opacity: 0.9;
-  }
-
   /* Name area */
   .name-row {
     display: flex;
@@ -236,9 +228,45 @@
   }
   .last-walk span { color: var(--terracotta-deep); }
 
+  /* Duration selector */
+  .duration-row {
+    padding: 10px 26px 0;
+  }
+  .duration-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--sage-deep);
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .duration-options {
+    display: flex;
+    gap: 8px;
+  }
+  .dur-btn {
+    flex: 1;
+    height: 36px;
+    border-radius: 10px;
+    border: 2px solid var(--cream-deep);
+    background: var(--cream-card);
+    color: var(--navy-soft);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .dur-btn.active {
+    border-color: var(--terracotta);
+    background: var(--terracotta);
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(207,138,85,0.35);
+  }
+
   /* Swipe button */
   .swipe-wrap {
-    margin: 18px 22px 0;
+    margin: 14px 22px 0;
     position: relative;
     height: 58px;
     background: var(--terracotta);
@@ -324,10 +352,13 @@
     justify-content: space-between;
     padding: 14px 0;
     border-bottom: 1px solid rgba(43,58,82,0.08);
+    cursor: pointer;
   }
+  .log-item:active { opacity: 0.7; }
   .log-info { display: flex; flex-direction: column; gap: 2px; }
   .log-date { font-size: 14px; font-weight: 700; color: var(--navy); }
   .log-time { font-size: 11px; color: var(--navy-soft); font-weight: 600; }
+  .log-meta { font-size: 10px; color: var(--terracotta-deep); font-weight: 700; margin-top: 2px; }
   .log-paw { color: var(--terracotta); }
   .empty-state {
     text-align: center;
@@ -428,6 +459,38 @@
     font-family: inherit;
     outline: none;
   }
+  .setting-select {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+  }
+  .avatar-grid {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 8px 0;
+  }
+  .avatar-option {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background: var(--cream-deep);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    overflow: hidden;
+  }
+  .avatar-option svg { width: 52px; height: 52px; }
+  .avatar-option.active { border-color: var(--terracotta); box-shadow: 0 4px 10px rgba(207,138,85,0.35); }
   .setting-btn {
     width: 100%;
     padding: 14px;
@@ -438,7 +501,9 @@
     font-weight: 700;
     cursor: pointer;
     margin-bottom: 10px;
+    transition: transform 0.1s ease;
   }
+  .setting-btn:active { transform: scale(0.98); }
   .btn-danger {
     background: rgba(217, 90, 90, 0.12);
     color: #b54545;
@@ -452,6 +517,87 @@
     color: var(--navy-soft);
     text-align: center;
     padding: 8px 0;
+  }
+
+  /* Route Modal */
+  .modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(43,58,82,0.45);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-card {
+    background: var(--cream);
+    border-radius: 24px;
+    width: 100%;
+    max-height: 90%;
+    overflow-y: auto;
+    padding: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  }
+  .modal-card::-webkit-scrollbar { display: none; }
+  .modal-close {
+    float: right;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: var(--navy);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 50%;
+  }
+  .modal-close:hover { background: var(--cream-deep); }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+  .modal-sub {
+    font-size: 12px;
+    color: var(--sage-deep);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .route-map {
+    width: 100%;
+    border-radius: 16px;
+    background: var(--cream-card);
+    border: 1px solid rgba(43,58,82,0.08);
+  }
+  .modal-stats {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .modal-stat {
+    flex: 1;
+    background: var(--cream-card);
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid rgba(43,58,82,0.08);
+  }
+  .modal-stat .val {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .modal-stat .lbl {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--sage-deep);
+    margin-top: 4px;
+    letter-spacing: 0.5px;
   }
 
   /* Bottom nav */
@@ -483,10 +629,9 @@
   .nav-item span { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
 
   @media (prefers-reduced-motion: reduce) {
-    .swipe-thumb, .swipe-text, .view { transition: none; animation: none; }
+    .swipe-thumb, .swipe-text, .view, .modal-overlay { transition: none; animation: none; }
   }
 </style>
-<base target="_blank">
 </head>
 <body>
 
@@ -522,8 +667,8 @@
     <div id="view-home" class="view active">
       <div class="title-row">
         <div>
-          <p class="title-jp">今日の散歩</p>
-          <div class="title-en">TODAY'S WALK</div>
+          <p class="title-jp" id="txt-home-title">今日の散歩</p>
+          <div class="title-en" id="txt-home-sub">TODAY'S WALK</div>
         </div>
         <div class="stamp">
           <div class="num" id="stampDay">05</div>
@@ -548,7 +693,7 @@
           </svg>
         </div>
 
-        <svg class="dog-svg" viewBox="0 0 240 210" xmlns="http://www.w3.org/2000/svg">
+        <svg class="dog-svg" id="dogAvatar" viewBox="0 0 240 210" xmlns="http://www.w3.org/2000/svg">
           <path d="M40 150 C10 165, -10 180, -30 210" stroke="#2b3a52" stroke-width="3" fill="none" stroke-linecap="round"/>
           <rect x="150" y="150" width="14" height="45" rx="6" fill="#f4ecd8" stroke="#2b3a52" stroke-width="2.5"/>
           <rect x="180" y="150" width="14" height="45" rx="6" fill="#2b3a52"/>
@@ -578,15 +723,6 @@
             <path d="M44 48 Q52 42 60 48" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
           </g>
         </svg>
-
-        <div class="paw-corner">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <ellipse cx="7" cy="8" rx="2.1" ry="2.8"/>
-            <ellipse cx="12" cy="6" rx="2.2" ry="3"/>
-            <ellipse cx="17" cy="8" rx="2.1" ry="2.8"/>
-            <path d="M12 12c-3 0-5.5 2.2-5.5 5 0 1.8 1.6 3 3.4 2.6.7-.2 1.4-.5 2.1-.5s1.4.3 2.1.5c1.8.4 3.4-.8 3.4-2.6 0-2.8-2.5-5-5.5-5z"/>
-          </svg>
-        </div>
       </div>
 
       <div class="name-row">
@@ -603,6 +739,16 @@
       <div class="breed-row" id="homeDogBreed">FOX TERRIER</div>
       <div class="last-walk" id="lastWalkInfo"></div>
 
+      <div class="duration-row">
+        <span class="duration-label" id="txt-duration-label">DURATION / 時間</span>
+        <div class="duration-options" id="durOptions">
+          <button class="dur-btn" data-min="15">15<span class="dur-unit">分</span></button>
+          <button class="dur-btn active" data-min="30">30<span class="dur-unit">分</span></button>
+          <button class="dur-btn" data-min="45">45<span class="dur-unit">分</span></button>
+          <button class="dur-btn" data-min="60">60<span class="dur-unit">分</span></button>
+        </div>
+      </div>
+
       <div class="swipe-wrap" id="swipeWrap">
         <div class="swipe-thumb" id="swipeThumb">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" id="thumbIcon">
@@ -613,8 +759,8 @@
           </svg>
         </div>
         <div class="swipe-text" id="swipeText">
-          <div class="jp">散歩完了！</div>
-          <div class="en">SWIPE TO CONFIRM</div>
+          <div class="jp" id="txt-swipe-jp">散歩完了！</div>
+          <div class="en" id="txt-swipe-en">SWIPE TO CONFIRM</div>
         </div>
       </div>
     </div>
@@ -623,26 +769,26 @@
     <div id="view-logs" class="view">
       <div class="title-row">
         <div>
-          <p class="title-jp">散歩記録</p>
-          <div class="title-en">WALK LOGS</div>
+          <p class="title-jp" id="txt-logs-title">散歩記録</p>
+          <div class="title-en" id="txt-logs-sub">WALK LOGS</div>
         </div>
       </div>
       <div class="stats-row">
         <div class="stat-card">
           <div class="num" id="statWeek">0</div>
-          <div class="label">今週</div>
+          <div class="label" id="txt-stat-week">今週</div>
         </div>
         <div class="stat-card">
           <div class="num" id="statStreak">0</div>
-          <div class="label">連続日</div>
+          <div class="label" id="txt-stat-streak">連続日</div>
         </div>
         <div class="stat-card">
           <div class="num" id="statTotal">0</div>
-          <div class="label">合計回</div>
+          <div class="label" id="txt-stat-total">合計回</div>
         </div>
       </div>
       <div class="logs-list" id="logsList">
-        <div class="empty-state">まだ散歩記録がありません<br>Swipe to log your first walk!</div>
+        <div class="empty-state" id="txt-empty">まだ散歩記録がありません</div>
       </div>
     </div>
 
@@ -650,8 +796,8 @@
     <div id="view-calendar" class="view">
       <div class="title-row">
         <div>
-          <p class="title-jp">カレンダー</p>
-          <div class="title-en">CALENDAR</div>
+          <p class="title-jp" id="txt-cal-title">カレンダー</p>
+          <div class="title-en" id="txt-cal-sub">CALENDAR</div>
         </div>
       </div>
       <div class="calendar-header">
@@ -659,68 +805,381 @@
         <div class="calendar-month" id="calMonthLabel">2026.08</div>
         <button onclick="changeMonth(1)">›</button>
       </div>
-      <div class="calendar-grid" id="calGrid">
-        <!-- generated -->
-      </div>
+      <div class="calendar-grid" id="calGrid"></div>
     </div>
 
     <!-- SETTINGS VIEW -->
     <div id="view-settings" class="view">
       <div class="title-row">
         <div>
-          <p class="title-jp">設定</p>
-          <div class="title-en">SETTINGS</div>
+          <p class="title-jp" id="txt-set-title">設定</p>
+          <div class="title-en" id="txt-set-sub">SETTINGS</div>
         </div>
       </div>
       <div class="settings-section">
         <div class="setting-item">
-          <div class="setting-label">愛犬の名前 / DOG NAME</div>
-          <input type="text" class="setting-input" id="inputName" value="モモ" maxlength="10">
+          <div class="setting-label" id="txt-label-avatar">AVATAR / アバター</div>
+          <div class="avatar-grid" id="avatarGrid"></div>
         </div>
         <div class="setting-item">
-          <div class="setting-label">犬種 / BREED</div>
+          <div class="setting-label" id="txt-label-name-jp">名前 (日本語) / NAME (JP)</div>
+          <input type="text" class="setting-input" id="inputNameJp" value="モモ" maxlength="10">
+        </div>
+        <div class="setting-item">
+          <div class="setting-label" id="txt-label-name-en">名前 (英語) / NAME (EN)</div>
+          <input type="text" class="setting-input" id="inputNameEn" value="MOMO" maxlength="10">
+        </div>
+        <div class="setting-item">
+          <div class="setting-label" id="txt-label-breed">犬種 / BREED</div>
           <input type="text" class="setting-input" id="inputBreed" value="FOX TERRIER" maxlength="20">
         </div>
-        <button class="setting-btn btn-secondary" onclick="saveSettings()">プロフィールを保存 / SAVE</button>
-        <button class="setting-btn btn-danger" onclick="clearAllData()">データをリセット / RESET DATA</button>
-        <div class="setting-note">Dog Walk Log v1.0</div>
+        <div class="setting-item">
+          <div class="setting-label" id="txt-label-lang">言語 / LANGUAGE</div>
+          <select class="setting-select" id="inputLang" onchange="onLangChange()">
+            <option value="ja">日本語</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <div class="setting-label" id="txt-label-theme">カラーテーマ / THEME</div>
+          <select class="setting-select" id="inputTheme" onchange="onThemeChange()">
+            <option value="warm">Warm Sand</option>
+            <option value="cool">Cool Breeze</option>
+            <option value="autumn">Autumn Leaf</option>
+          </select>
+        </div>
+        <button class="setting-btn btn-secondary" onclick="saveSettings()" id="txt-btn-save">プロフィールを保存 / SAVE</button>
+        <button class="setting-btn btn-danger" onclick="clearAllData()" id="txt-btn-reset">データをリセット / RESET DATA</button>
+        <div class="setting-note">Dog Walk Log v1.1</div>
       </div>
     </div>
 
+  </div>
+
+  <!-- Route Modal -->
+  <div class="modal-overlay" id="routeModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeRoute()">×</button>
+      <div class="modal-title" id="txt-route-title">Walk Route</div>
+      <div class="modal-sub" id="modalDate">2026.08.21 · 07:30</div>
+      <svg class="route-map" viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg" style="height:180px;">
+        <rect width="260" height="180" rx="16" fill="var(--cream-card)"/>
+        <!-- park elements -->
+        <circle cx="40" cy="40" r="14" fill="var(--sage)" opacity="0.25"/>
+        <circle cx="220" cy="140" r="18" fill="var(--sage)" opacity="0.25"/>
+        <circle cx="200" cy="50" r="10" fill="var(--sage)" opacity="0.25"/>
+        <rect x="100" y="30" width="40" height="30" rx="4" fill="var(--cream-deep)"/>
+        <polygon points="100,30 120,12 140,30" fill="var(--navy-soft)" opacity="0.3"/>
+        <!-- route path -->
+        <path d="M30 150 C50 120 80 130 110 100 C140 70 160 90 190 60 C210 40 230 50 240 30" 
+              stroke="var(--terracotta)" stroke-width="4" fill="none" stroke-dasharray="6 4" stroke-linecap="round" opacity="0.9"/>
+        <!-- start -->
+        <circle cx="30" cy="150" r="7" fill="var(--navy)"/>
+        <text x="30" y="170" text-anchor="middle" font-size="9" fill="var(--navy)" font-weight="700" font-family="sans-serif">START</text>
+        <!-- end -->
+        <circle cx="240" cy="30" r="7" fill="var(--sage-deep)"/>
+        <text x="240" y="24" text-anchor="middle" font-size="9" fill="var(--navy)" font-weight="700" font-family="sans-serif">GOAL</text>
+        <!-- paw prints along path -->
+        <g fill="var(--terracotta)" opacity="0.5">
+          <ellipse cx="70" cy="125" rx="2.5" ry="3.5"/>
+          <ellipse cx="75" cy="118" rx="2.5" ry="3.5"/>
+          <ellipse cx="65" cy="118" rx="2.5" ry="3.5"/>
+          <ellipse cx="70" cy="132" rx="4" ry="3"/>
+        </g>
+        <g fill="var(--terracotta)" opacity="0.5">
+          <ellipse cx="150" cy="80" rx="2.5" ry="3.5"/>
+          <ellipse cx="155" cy="73" rx="2.5" ry="3.5"/>
+          <ellipse cx="145" cy="73" rx="2.5" ry="3.5"/>
+          <ellipse cx="150" cy="87" rx="4" ry="3"/>
+        </g>
+      </svg>
+      <div class="modal-stats">
+        <div class="modal-stat">
+          <div class="val" id="modalDur">30</div>
+          <div class="lbl" id="txt-modal-min">分</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val" id="modalDist">1.5</div>
+          <div class="lbl" id="txt-modal-km">km</div>
+        </div>
+        <div class="modal-stat">
+          <div class="val" id="modalPace">20</div>
+          <div class="lbl" id="txt-modal-pace">min/km</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Bottom nav -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="switchView('home')" id="nav-home">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>
-      <span>ホーム</span>
+      <span id="nav-txt-home">ホーム</span>
     </button>
     <button class="nav-item" onclick="switchView('logs')" id="nav-logs">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="12" width="4" height="8"/><rect x="10" y="7" width="4" height="13"/><rect x="16" y="3" width="4" height="17"/></svg>
-      <span>記録</span>
+      <span id="nav-txt-logs">記録</span>
     </button>
     <button class="nav-item" onclick="switchView('calendar')" id="nav-calendar">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/><line x1="8" y1="3" x2="8" y2="7" stroke="currentColor" stroke-width="2"/><line x1="16" y1="3" x2="16" y2="7" stroke="currentColor" stroke-width="2"/></svg>
-      <span>カレンダー</span>
+      <span id="nav-txt-cal">カレンダー</span>
     </button>
     <button class="nav-item" onclick="switchView('settings')" id="nav-settings">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M19.4 13a7.6 7.6 0 000-2l2-1.6-2-3.4-2.4 1a7.7 7.7 0 00-1.7-1L15 3h-6l-.3 2a7.7 7.7 0 00-1.7 1l-2.4-1-2 3.4L4.6 11a7.6 7.6 0 000 2l-2 1.6 2 3.4 2.4-1a7.7 7.7 0 001.7 1L9 21h6l.3-2a7.7 7.7 0 001.7-1l2.4 1 2-3.4z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-      <span>設定</span>
+      <span id="nav-txt-set">設定</span>
     </button>
   </div>
 
 </div>
 
 <script>
+  
+// =====================
+  // TRANSLATIONS
+  // =====================
+  const I18N = {
+    ja: {
+      'txt-home-title': '今日の散歩', 'txt-home-sub': 'TODAY\'S WALK',
+      'txt-swipe-jp': '散歩完了！', 'txt-swipe-en': 'SWIPE TO CONFIRM',
+      'txt-duration-label': 'DURATION / 時間',
+      'txt-logs-title': '散歩記録', 'txt-logs-sub': 'WALK LOGS',
+      'txt-stat-week': '今週', 'txt-stat-streak': '連続日', 'txt-stat-total': '合計回',
+      'txt-empty': 'まだ散歩記録がありません',
+      'txt-cal-title': 'カレンダー', 'txt-cal-sub': 'CALENDAR',
+      'txt-set-title': '設定', 'txt-set-sub': 'SETTINGS',
+      'txt-label-avatar': 'AVATAR / アバター',
+      'txt-label-name-jp': '名前 (日本語) / NAME (JP)',
+      'txt-label-name-en': '名前 (英語) / NAME (EN)',
+      'txt-label-breed': '犬種 / BREED',
+      'txt-label-lang': '言語 / LANGUAGE',
+      'txt-label-theme': 'カラーテーマ / THEME',
+      'txt-btn-save': 'プロフィールを保存 / SAVE',
+      'txt-btn-reset': 'データをリセット / RESET DATA',
+      'txt-route-title': '散歩ルート',
+      'txt-modal-min': '分', 'txt-modal-km': 'km', 'txt-modal-pace': '分/km',
+      'nav-txt-home': 'ホーム', 'nav-txt-logs': '記録', 'nav-txt-cal': 'カレンダー', 'nav-txt-set': '設定',
+      'dur-unit': '分',
+      'done-jp': '完了しました！', 'done-en': 'WALK LOGGED'
+    },
+    en: {
+      'txt-home-title': 'Today\'s Walk', 'txt-home-sub': 'WALK LOG',
+      'txt-swipe-jp': 'Walk Done!', 'txt-swipe-en': 'SWIPE TO CONFIRM',
+      'txt-duration-label': 'DURATION',
+      'txt-logs-title': 'Walk Logs', 'txt-logs-sub': 'HISTORY',
+      'txt-stat-week': 'THIS WEEK', 'txt-stat-streak': 'STREAK', 'txt-stat-total': 'TOTAL',
+      'txt-empty': 'No walks logged yet.',
+      'txt-cal-title': 'Calendar', 'txt-cal-sub': 'MONTHLY VIEW',
+      'txt-set-title': 'Settings', 'txt-set-sub': 'PREFERENCES',
+      'txt-label-avatar': 'AVATAR',
+      'txt-label-name-jp': 'NAME (JAPANESE)',
+      'txt-label-name-en': 'NAME (ENGLISH)',
+      'txt-label-breed': 'BREED',
+      'txt-label-lang': 'LANGUAGE',
+      'txt-label-theme': 'COLOR THEME',
+      'txt-btn-save': 'SAVE PROFILE',
+      'txt-btn-reset': 'RESET ALL DATA',
+      'txt-route-title': 'Walk Route',
+      'txt-modal-min': 'min', 'txt-modal-km': 'km', 'txt-modal-pace': 'min/km',
+      'nav-txt-home': 'HOME', 'nav-txt-logs': 'LOGS', 'nav-txt-cal': 'CAL', 'nav-txt-set': 'SETTINGS',
+      'dur-unit': 'min',
+      'done-jp': 'Logged!', 'done-en': 'WALK SAVED'
+    }
+  };
+
+  function applyLang() {
+    const dict = I18N[appData.lang] || I18N.ja;
+    Object.keys(dict).forEach(key => {
+      const el = document.getElementById(key);
+      if (el) {
+        if (key === 'dur-unit') {
+          document.querySelectorAll('.dur-unit').forEach(u => u.textContent = dict[key]);
+        } else {
+          el.textContent = dict[key];
+        }
+      }
+    });
+    // Update done text if currently completed
+    if (completed) {
+      const dj = document.getElementById('txt-swipe-jp');
+      const de = document.getElementById('txt-swipe-en');
+      if (dj) dj.textContent = dict['done-jp'];
+      if (de) de.textContent = dict['done-en'];
+    }
+  }
+
+  function onLangChange() {
+    appData.lang = document.getElementById('inputLang').value;
+    saveData(appData);
+    applyLang();
+    updateHome();
+  }
+
+  // =====================
+  // THEMES
+  // =====================
+  const THEMES = {
+    warm: {
+      '--cream': '#f4ecd8', '--cream-deep': '#ece1c8', '--navy': '#2b3a52',
+      '--navy-soft': '#3d4f6b', '--terracotta': '#d99a6c', '--terracotta-deep': '#cf8a55',
+      '--sage': '#93a97e', '--sage-deep': '#7d9468', '--cream-card': '#faf5e9'
+    },
+    cool: {
+      '--cream': '#e8f0f4', '--cream-deep': '#d8e4ec', '--navy': '#2c3e50',
+      '--navy-soft': '#34495e', '--terracotta': '#5dade2', '--terracotta-deep': '#3498db',
+      '--sage': '#58d68d', '--sage-deep': '#2ecc71', '--cream-card': '#f0f7fa'
+    },
+    autumn: {
+      '--cream': '#fdf2e9', '--cream-deep': '#fae5d3', '--navy': '#4a235a',
+      '--navy-soft': '#6c3483', '--terracotta': '#e74c3c', '--terracotta-deep': '#c0392b',
+      '--sage': '#f39c12', '--sage-deep': '#e67e22', '--cream-card': '#fef5e7'
+    }
+  };
+
+  function applyTheme(name) {
+    const t = THEMES[name] || THEMES.warm;
+    Object.keys(t).forEach(k => {
+      document.documentElement.style.setProperty(k, t[k]);
+    });
+  }
+
+  function onThemeChange() {
+    const theme = document.getElementById('inputTheme').value;
+    appData.theme = theme;
+    saveData(appData);
+    applyTheme(theme);
+  }
+
+  // =====================
+  // AVATARS
+  // =====================
+  const AVATARS = [
+    // 0: Fox Terrier (original)
+    `<svg viewBox="0 0 240 210" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 150 C10 165, -10 180, -30 210" stroke="#2b3a52" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <rect x="150" y="150" width="14" height="45" rx="6" fill="#f4ecd8" stroke="#2b3a52" stroke-width="2.5"/>
+      <rect x="180" y="150" width="14" height="45" rx="6" fill="#2b3a52"/>
+      <path d="M205 110 Q230 95 222 70" stroke="#d99a6c" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <ellipse cx="150" cy="120" rx="65" ry="42" fill="#f7efdd" stroke="#2b3a52" stroke-width="3"/>
+      <path d="M100 100 Q140 80 190 100 Q190 140 150 155 Q110 145 100 100Z" fill="#2b3a52" opacity="0.9"/>
+      <rect x="88" y="140" width="15" height="55" rx="6" fill="#f4ecd8" stroke="#2b3a52" stroke-width="2.5"/>
+      <rect x="118" y="140" width="15" height="55" rx="6" fill="#f4ecd8" stroke="#2b3a52" stroke-width="2.5"/>
+      <path d="M75 105 L60 175" stroke="#2b3a52" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="75" cy="105" rx="8" ry="6" fill="none" stroke="#2b3a52" stroke-width="3"/>
+      <ellipse cx="80" cy="115" rx="30" ry="35" fill="#f7efdd" stroke="#2b3a52" stroke-width="3"/>
+      <g transform="translate(45,30)">
+        <ellipse cx="35" cy="60" rx="38" ry="34" fill="#f4ecd8" stroke="#2b3a52" stroke-width="3"/>
+        <path d="M4 40 Q-10 65 8 90 Q22 78 20 55Z" fill="#d99a6c" stroke="#2b3a52" stroke-width="2.5"/>
+        <path d="M66 40 Q80 65 62 90 Q48 78 50 55Z" fill="#d99a6c" stroke="#2b3a52" stroke-width="2.5"/>
+        <path d="M8 35 Q35 10 62 35 Q55 20 35 18 Q15 20 8 35Z" fill="#d99a6c"/>
+        <ellipse cx="35" cy="78" rx="20" ry="16" fill="#faf5e9" stroke="#2b3a52" stroke-width="2.5"/>
+        <ellipse cx="35" cy="74" rx="7" ry="5" fill="#2b3a52"/>
+        <path d="M35 79 L35 86" stroke="#2b3a52" stroke-width="2" stroke-linecap="round"/>
+        <path d="M35 86 Q28 90 24 86" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M35 86 Q42 90 46 86" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="20" cy="58" r="4.2" fill="#2b3a52"/>
+        <circle cx="50" cy="58" r="4.2" fill="#2b3a52"/>
+        <circle cx="18.5" cy="56.5" r="1.2" fill="#fff"/>
+        <circle cx="48.5" cy="56.5" r="1.2" fill="#fff"/>
+        <path d="M10 48 Q18 42 26 48" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M44 48 Q52 42 60 48" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>`,
+    // 1: Shiba Inu
+    `<svg viewBox="0 0 240 210" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 150 C10 165, -10 180, -30 210" stroke="#2b3a52" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <rect x="150" y="150" width="14" height="45" rx="6" fill="#e6c9a8" stroke="#2b3a52" stroke-width="2.5"/>
+      <rect x="180" y="150" width="14" height="45" rx="6" fill="#c0392b"/>
+      <path d="M205 110 Q230 95 222 70" stroke="#c0392b" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <ellipse cx="150" cy="120" rx="65" ry="42" fill="#e6c9a8" stroke="#2b3a52" stroke-width="3"/>
+      <path d="M100 100 Q140 80 190 100 Q190 140 150 155 Q110 145 100 100Z" fill="#c0392b" opacity="0.85"/>
+      <rect x="88" y="140" width="15" height="55" rx="6" fill="#e6c9a8" stroke="#2b3a52" stroke-width="2.5"/>
+      <rect x="118" y="140" width="15" height="55" rx="6" fill="#e6c9a8" stroke="#2b3a52" stroke-width="2.5"/>
+      <path d="M75 105 L60 175" stroke="#2b3a52" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="75" cy="105" rx="8" ry="6" fill="none" stroke="#2b3a52" stroke-width="3"/>
+      <ellipse cx="80" cy="115" rx="30" ry="35" fill="#e6c9a8" stroke="#2b3a52" stroke-width="3"/>
+      <g transform="translate(45,30)">
+        <ellipse cx="35" cy="60" rx="38" ry="34" fill="#e6c9a8" stroke="#2b3a52" stroke-width="3"/>
+        <path d="M2 35 Q-8 60 10 85 Q25 75 22 50Z" fill="#c0392b" stroke="#2b3a52" stroke-width="2.5"/>
+        <path d="M68 35 Q78 60 60 85 Q45 75 48 50Z" fill="#c0392b" stroke="#2b3a52" stroke-width="2.5"/>
+        <ellipse cx="35" cy="78" rx="20" ry="16" fill="#fae5d3" stroke="#2b3a52" stroke-width="2.5"/>
+        <ellipse cx="35" cy="74" rx="7" ry="5" fill="#2b3a52"/>
+        <path d="M35 79 L35 86" stroke="#2b3a52" stroke-width="2" stroke-linecap="round"/>
+        <path d="M35 86 Q28 90 24 86" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M35 86 Q42 90 46 86" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="20" cy="58" r="4.2" fill="#2b3a52"/>
+        <circle cx="50" cy="58" r="4.2" fill="#2b3a52"/>
+        <circle cx="18.5" cy="56.5" r="1.2" fill="#fff"/>
+        <circle cx="48.5" cy="56.5" r="1.2" fill="#fff"/>
+        <path d="M32 64 Q35 67 38 64" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>`,
+    // 2: Black Poodle
+    `<svg viewBox="0 0 240 210" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 150 C10 165, -10 180, -30 210" stroke="#2b3a52" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <rect x="150" y="150" width="14" height="45" rx="6" fill="#f4ecd8" stroke="#2b3a52" stroke-width="2.5"/>
+      <rect x="180" y="150" width="14" height="45" rx="6" fill="#2c3e50"/>
+      <path d="M205 110 Q230 95 222 70" stroke="#2c3e50" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <ellipse cx="150" cy="120" rx="65" ry="42" fill="#f7efdd" stroke="#2b3a52" stroke-width="3"/>
+      <path d="M100 100 Q140 80 190 100 Q190 140 150 155 Q110 145 100 100Z" fill="#2c3e50" opacity="0.85"/>
+      <rect x="88" y="140" width="15" height="55" rx="6" fill="#f4ecd8" stroke="#2b3a52" stroke-width="2.5"/>
+      <rect x="118" y="140" width="15" height="55" rx="6" fill="#f4ecd8" stroke="#2b3a52" stroke-width="2.5"/>
+      <path d="M75 105 L60 175" stroke="#2b3a52" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="75" cy="105" rx="8" ry="6" fill="none" stroke="#2b3a52" stroke-width="3"/>
+      <ellipse cx="80" cy="115" rx="30" ry="35" fill="#f7efdd" stroke="#2b3a52" stroke-width="3"/>
+      <g transform="translate(45,30)">
+        <ellipse cx="35" cy="60" rx="38" ry="34" fill="#f7efdd" stroke="#2b3a52" stroke-width="3"/>
+        <path d="M4 40 Q-10 65 8 90 Q22 78 20 55Z" fill="#2c3e50" stroke="#2b3a52" stroke-width="2.5"/>
+        <path d="M66 40 Q80 65 62 90 Q48 78 50 55Z" fill="#2c3e50" stroke="#2b3a52" stroke-width="2.5"/>
+        <ellipse cx="35" cy="78" rx="20" ry="16" fill="#faf5e9" stroke="#2b3a52" stroke-width="2.5"/>
+        <ellipse cx="35" cy="74" rx="7" ry="5" fill="#2b3a52"/>
+        <path d="M35 79 L35 86" stroke="#2b3a52" stroke-width="2" stroke-linecap="round"/>
+        <path d="M35 86 Q28 90 24 86" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M35 86 Q42 90 46 86" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="20" cy="58" r="4.2" fill="#2b3a52"/>
+        <circle cx="50" cy="58" r="4.2" fill="#2b3a52"/>
+        <circle cx="18.5" cy="56.5" r="1.2" fill="#fff"/>
+        <circle cx="48.5" cy="56.5" r="1.2" fill="#fff"/>
+        <path d="M10 48 Q18 42 26 48" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M44 48 Q52 42 60 48" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </g>
+    </svg>`
+  ];
+
+  function renderAvatars() {
+    const grid = document.getElementById('avatarGrid');
+    grid.innerHTML = AVATARS.map((svg, i) => `
+      <div class="avatar-option ${i === appData.avatarIndex ? 'active' : ''}" onclick="selectAvatar(${i})">
+        ${svg}
+      </div>
+    `).join('');
+  }
+
+  function selectAvatar(i) {
+    appData.avatarIndex = i;
+    saveData(appData);
+    renderAvatars();
+    document.getElementById('dogAvatar').innerHTML = AVATARS[i];
+  }
+
   // =====================
   // DATA & STATE
   // =====================
-  const STORAGE_KEY = 'dogwalk-app-v1';
+  const STORAGE_KEY = 'dogwalk-app-v2';
 
   function getData() {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { walks: [], dogName: 'モモ', dogBreed: 'FOX TERRIER' };
-    try { return JSON.parse(raw); } catch(e) { return { walks: [], dogName: 'モモ', dogBreed: 'FOX TERRIER' }; }
+    if (!raw) return {
+      walks: [],
+      dogNameJp: 'スパイク',
+      dogNameEn: 'Spike',
+      dogBreed: 'FOX TERRIER',
+      avatarIndex: 0,
+      lang: 'ja',
+      theme: 'warm'
+    };
+    try { return JSON.parse(raw); } catch(e) {
+      return { walks: [], dogNameJp: 'モモ', dogNameEn: 'MOMO', dogBreed: 'FOX TERRIER', avatarIndex: 0, lang: 'ja', theme: 'warm' };
+    }
   }
 
   function saveData(data) {
@@ -730,6 +1189,7 @@
   let appData = getData();
   let currentMonth = new Date().getMonth();
   let currentYear = new Date().getFullYear();
+  let selectedDuration = 30;
 
   // =====================
   // VIEW ROUTER
@@ -754,24 +1214,36 @@
     const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
     document.getElementById('stampMonth').textContent = `月 ${months[now.getMonth()]}`;
 
-    document.getElementById('homeDogName').textContent = appData.dogName;
-    document.getElementById('homeDogNameEn').textContent = appData.dogName.toUpperCase();
+    document.getElementById('homeDogName').textContent = appData.dogNameJp;
+    document.getElementById('homeDogNameEn').textContent = appData.dogNameEn;
     document.getElementById('homeDogBreed').textContent = appData.dogBreed;
 
     const last = appData.walks[appData.walks.length - 1];
     const el = document.getElementById('lastWalkInfo');
+    const dict = I18N[appData.lang] || I18N.ja;
     if (last) {
       const d = new Date(last.date);
       const diff = Math.floor((now - d) / (1000*60*60*24));
       let text = '';
-      if (diff === 0) text = '最後の散歩: <span>今日</span>';
-      else if (diff === 1) text = '最後の散歩: <span>昨日</span>';
-      else text = `最後の散歩: <span>${diff}日前</span>`;
+      if (diff === 0) text = `${appData.lang === 'en' ? 'Last walk: ' : '最後の散歩: '}<span>${appData.lang === 'en' ? 'Today' : '今日'}</span>`;
+      else if (diff === 1) text = `${appData.lang === 'en' ? 'Last walk: ' : '最後の散歩: '}<span>${appData.lang === 'en' ? 'Yesterday' : '昨日'}</span>`;
+      else text = `${appData.lang === 'en' ? 'Last walk: ' : '最後の散歩: '}<span>${diff}${appData.lang === 'en' ? ' days ago' : '日前'}</span>`;
       el.innerHTML = text;
     } else {
-      el.innerHTML = '最後の散歩: <span>記録なし</span>';
+      el.innerHTML = `${appData.lang === 'en' ? 'Last walk: ' : '最後の散歩: '}<span>${appData.lang === 'en' ? 'No records' : '記録なし'}</span>`;
     }
   }
+
+  // =====================
+  // DURATION SELECTOR
+  // =====================
+  document.querySelectorAll('.dur-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedDuration = parseInt(btn.dataset.min);
+    });
+  });
 
   // =====================
   // SWIPE INTERACTION
@@ -818,17 +1290,19 @@
     const walk = {
       id: Date.now(),
       date: now.toISOString(),
-      dateStr: now.toLocaleDateString('ja-JP'),
-      timeStr: now.toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'}),
-      duration: 30
+      dateStr: now.toLocaleDateString(appData.lang === 'en' ? 'en-US' : 'ja-JP'),
+      timeStr: now.toLocaleTimeString(appData.lang === 'en' ? 'en-US' : 'ja-JP', {hour:'2-digit', minute:'2-digit'}),
+      duration: selectedDuration,
+      distance: (selectedDuration * 0.05).toFixed(2)
     };
     appData.walks.push(walk);
     saveData(appData);
     updateHome();
 
     checkmarkIcon();
+    const dict = I18N[appData.lang] || I18N.ja;
     setTimeout(() => {
-      text.innerHTML = '<div class="jp">完了しました！</div><div class="en">WALK LOGGED</div>';
+      text.innerHTML = `<div class="jp">${dict['done-jp']}</div><div class="en">${dict['done-en']}</div>`;
       text.style.transition = 'opacity 0.3s ease';
       text.style.opacity = 1;
     }, 300);
@@ -838,7 +1312,8 @@
     completed = false;
     setThumbX(trackPadding, true);
     wrap.classList.remove('completed');
-    text.innerHTML = '<div class="jp">散歩完了！</div><div class="en">SWIPE TO CONFIRM</div>';
+    const dict = I18N[appData.lang] || I18N.ja;
+    text.innerHTML = `<div class="jp">${dict['txt-swipe-jp']}</div><div class="en">${dict['txt-swipe-en']}</div>`;
     text.style.opacity = 1;
     pawIcon();
   }
@@ -891,14 +1366,16 @@
   // =====================
   function renderLogs() {
     const list = document.getElementById('logsList');
+    const dict = I18N[appData.lang] || I18N.ja;
     if (appData.walks.length === 0) {
-      list.innerHTML = '<div class="empty-state">まだ散歩記録がありません<br>Swipe to log your first walk!</div>';
+      list.innerHTML = `<div class="empty-state">${dict['txt-empty']}</div>`;
     } else {
       const html = appData.walks.slice().reverse().map(w => `
-        <div class="log-item">
+        <div class="log-item" onclick="openRoute(${w.id})">
           <div class="log-info">
             <div class="log-date">${w.dateStr}</div>
-            <div class="log-time">${w.timeStr} · ${w.duration}分</div>
+            <div class="log-time">${w.timeStr} · ${w.duration}${dict['dur-unit']}</div>
+            <div class="log-meta">${w.distance}km · ${Math.round(w.duration / w.distance)}${dict['txt-modal-pace']}</div>
           </div>
           <div class="log-paw">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -913,7 +1390,6 @@
       list.innerHTML = html;
     }
 
-    // Stats
     const now = new Date();
     const weekAgo = new Date(now.getTime() - 7*24*60*60*1000);
     const weekCount = appData.walks.filter(w => new Date(w.date) >= weekAgo).length;
@@ -935,6 +1411,28 @@
   }
 
   // =====================
+  // ROUTE MODAL
+  // =====================
+  function openRoute(id) {
+    const walk = appData.walks.find(w => w.id === id);
+    if (!walk) return;
+    const dict = I18N[appData.lang] || I18N.ja;
+    document.getElementById('modalDate').textContent = `${walk.dateStr} · ${walk.timeStr}`;
+    document.getElementById('modalDur').textContent = walk.duration;
+    document.getElementById('modalDist').textContent = walk.distance;
+    document.getElementById('modalPace').textContent = Math.round(walk.duration / walk.distance);
+    document.getElementById('txt-route-title').textContent = dict['txt-route-title'];
+    document.getElementById('txt-modal-min').textContent = dict['txt-modal-min'];
+    document.getElementById('txt-modal-km').textContent = dict['txt-modal-km'];
+    document.getElementById('txt-modal-pace').textContent = dict['txt-modal-pace'];
+    document.getElementById('routeModal').classList.add('active');
+  }
+
+  function closeRoute() {
+    document.getElementById('routeModal').classList.remove('active');
+  }
+
+  // =====================
   // CALENDAR VIEW
   // =====================
   function changeMonth(delta) {
@@ -949,14 +1447,13 @@
     label.textContent = `${currentYear}.${String(currentMonth+1).padStart(2,'0')}`;
 
     const grid = document.getElementById('calGrid');
-    const weekdays = ['日','月','火','水','木','金','土'];
+    const weekdays = appData.lang === 'en' ? ['S','M','T','W','T','F','S'] : ['日','月','火','水','木','金','土'];
     let html = weekdays.map(d => `<div class="cal-weekday">${d}</div>`).join('');
 
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const prevDays = new Date(currentYear, currentMonth, 0).getDate();
 
-    // previous month padding
     for (let i = firstDay - 1; i >= 0; i--) {
       html += `<div class="cal-day other-month">${prevDays - i}</div>`;
     }
@@ -977,7 +1474,6 @@
       html += `<div class="${cls}">${d}</div>`;
     }
 
-    // next month padding to fill grid
     const totalCells = firstDay + daysInMonth;
     const nextPadding = (7 - (totalCells % 7)) % 7;
     for (let i = 1; i <= nextPadding; i++) {
@@ -991,20 +1487,27 @@
   // SETTINGS VIEW
   // =====================
   function loadSettings() {
-    document.getElementById('inputName').value = appData.dogName;
+    document.getElementById('inputNameJp').value = appData.dogNameJp;
+    document.getElementById('inputNameEn').value = appData.dogNameEn;
     document.getElementById('inputBreed').value = appData.dogBreed;
+    document.getElementById('inputLang').value = appData.lang;
+    document.getElementById('inputTheme').value = appData.theme;
+    renderAvatars();
   }
 
   function saveSettings() {
-    appData.dogName = document.getElementById('inputName').value.trim() || 'モモ';
+    appData.dogNameJp = document.getElementById('inputNameJp').value.trim() || 'モモ';
+    appData.dogNameEn = document.getElementById('inputNameEn').value.trim() || 'MOMO';
     appData.dogBreed = document.getElementById('inputBreed').value.trim() || 'FOX TERRIER';
     saveData(appData);
     updateHome();
-    alert('プロフィールを保存しました / Profile saved');
+    const dict = I18N[appData.lang] || I18N.ja;
+    alert(appData.lang === 'en' ? 'Profile saved!' : 'プロフィールを保存しました');
   }
 
   function clearAllData() {
-    if (confirm('すべての散歩記録を削除しますか？\nDelete all walk logs?')) {
+    const dict = I18N[appData.lang] || I18N.ja;
+    if (confirm(appData.lang === 'en' ? 'Delete all walk logs?' : 'すべての散歩記録を削除しますか？')) {
       appData.walks = [];
       saveData(appData);
       renderLogs();
@@ -1030,9 +1533,12 @@
   // INIT
   // =====================
   window.addEventListener('load', () => {
+    applyTheme(appData.theme);
+    applyLang();
     setThumbX(trackPadding, false);
     updateHome();
     renderCalendar();
+    document.getElementById('dogAvatar').innerHTML = AVATARS[appData.avatarIndex] || AVATARS[0];
   });
 </script>
 
