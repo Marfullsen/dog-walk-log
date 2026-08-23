@@ -1128,8 +1128,8 @@
     const now = new Date();
     document.getElementById('stampDay').textContent = String(now.getDate()).padStart(2, '0');
     const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-    document.getElementById('stampMonth').textContent = `月 ${months[now.getMonth()]}`;
-
+    const monthLabel = appData.lang === 'ja' ? '月' : '';
+    document.getElementById('stampMonth').textContent = `${monthLabel} ${months[now.getMonth()]}`;
     document.getElementById('homeDogName').textContent = appData.dogNameJp;
     document.getElementById('homeDogNameEn').textContent = appData.dogNameEn;
     document.getElementById('homeDogBreed').textContent = appData.dogBreed;
