@@ -93,6 +93,23 @@
     color: var(--navy);
   }
 
+  .dog-switcher {
+  position: absolute; top: 68px; right: 22px; width: 220px;
+  background: var(--cream-card); border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  border: 1px solid rgba(43,58,82,0.1);
+  padding: 8px; display: none; flex-direction: column; gap: 4px; z-index: 40;
+  }
+  .dog-switcher.active { display: flex; }
+  .dog-switcher-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; cursor: pointer; }
+  .dog-switcher-item:hover { background: var(--cream-deep); }
+  .dog-switcher-item.active { background: var(--terracotta); color: #fff; }
+  .dog-switcher-item .avatar-mini { width: 34px; height: 34px; border-radius: 50%; background: var(--cream-deep); display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0; }
+  .dog-switcher-item .avatar-mini svg { width: 30px; height: 30px; }
+  .dog-switcher-divider { height:1px; background: rgba(43,58,82,0.1); margin:4px 6px; }
+  .dog-switcher-add { display: flex; align-items:center; gap:10px; padding: 8px 10px; border-radius:12px; cursor:pointer; color: var(--sage-deep); font-weight:700; font-size:13px; }
+  .dog-switcher-add:hover { background: var(--cream-deep); }
+
   /* View system */
   .view-container {
     flex: 1;
@@ -661,7 +678,8 @@
   <!-- Menu + paw badge -->
   <div class="top-row">
     <div class="menu-icon"><span></span><span></span><span></span></div>
-    <div class="paw-badge">
+    <div class="dog-switcher" id="dogSwitcher"></div>
+    <div class="paw-badge" onclick="toggleDogSwitcher()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <ellipse cx="7" cy="8" rx="2.1" ry="2.8"/>
         <ellipse cx="12" cy="6" rx="2.2" ry="3"/>
@@ -1075,14 +1093,14 @@
   function renderAvatars() {
     const grid = document.getElementById('avatarGrid');
     grid.innerHTML = AVATARS.map((svg, i) => `
-      <div class="avatar-option ${i === appData.avatarIndex ? 'active' : ''}" onclick="selectAvatar(${i})">
+      <div class="avatar-option ${i === getActiveDog().avatarIndex ? 'active' : ''}" onclick="selectAvatar(${i})">
         ${svg}
       </div>
     `).join('');
   }
 
   function selectAvatar(i) {
-    appData.avatarIndex = i;
+    getActiveDog().avatarIndex = i;
     saveData(appData);
     renderAvatars();
     document.getElementById('dogAvatar').innerHTML = AVATARS[i];
@@ -1095,18 +1113,30 @@
 
   function getData() {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return {
-      walks: [],
-      dogNameJp: 'スパイク',
-      dogNameEn: 'Spike',
-      dogBreed: 'FOX TERRIER',
-      avatarIndex: 0,
+    let data = null;
+    if (raw) { try { data = JSON.parse(raw); } catch(e) {} }
+
+    if (!data) {
+      data = { dogs: [
+        { id: 1, nameJp: 'モモ', nameEn: 'MOMO', breed: 'MIXED BREED', avatarIndex: 0, walks: [] },
+        { id: 2, nameJp: 'ポチ', nameEn: 'POCHI', breed: 'MIXED BREED', avatarIndex: 1, walks: []},
+        { id: 3, nameJp: 'スパイク', nameEn: 'Spike', breed: 'FOX TERRIER', avatarIndex: 2, walks: []}
+      ],
+      activeDogId: 1,
       lang: 'ja',
-      theme: 'warm'
+      theme: 'warm' };
+    } else if (!data.dogs) {
+    data = {
+      dogs: [{ id: 1, nameJp: data.dogNameJp || 'モモ', nameEn: data.dogNameEn || 'MOMO',
+                breed: data.dogBreed || 'FOX TERRIER', avatarIndex: data.avatarIndex || 0, walks: data.walks || [] }],
+      activeDogId: 1, lang: data.lang || 'ja', theme: data.theme || 'warm'
     };
-    try { return JSON.parse(raw); } catch(e) {
-      return { walks: [], dogNameJp: 'モモ', dogNameEn: 'MOMO', dogBreed: 'FOX TERRIER', avatarIndex: 0, lang: 'ja', theme: 'warm' };
-    }
+  }
+  return data;
+  }
+
+  function getActiveDog() {
+    return appData.dogs.find(d => d.id === appData.activeDogId) || appData.dogs[0];
   }
 
   function saveData(data) {
@@ -1141,11 +1171,11 @@
     const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
     const monthLabel = appData.lang === 'ja' ? '月' : '';
     document.getElementById('stampMonth').textContent = `${monthLabel} ${months[now.getMonth()]}`;
-    document.getElementById('homeDogName').textContent = appData.dogNameJp;
-    document.getElementById('homeDogNameEn').textContent = appData.dogNameEn;
-    document.getElementById('homeDogBreed').textContent = appData.dogBreed;
+    document.getElementById('homeDogName').textContent = getActiveDog().nameJp;
+    document.getElementById('homeDogNameEn').textContent = getActiveDog().nameEn;
+    document.getElementById('homeDogBreed').textContent = getActiveDog().breed;
 
-    const last = appData.walks[appData.walks.length - 1];
+    const last = getActiveDog().walks[getActiveDog().walks.length - 1];
     const el = document.getElementById('lastWalkInfo');
     const dict = I18N[appData.lang] || I18N.ja;
     if (last) {
@@ -1159,6 +1189,64 @@
     } else {
       el.innerHTML = `${appData.lang === 'en' ? 'Last walk: ' : '最後の散歩: '}<span>${appData.lang === 'en' ? 'No records' : '記録なし'}</span>`;
     }
+  }
+
+  // =====================
+  // DOG SELECTOR
+  // =====================
+
+  function toggleDogSwitcher() {
+  const el = document.getElementById('dogSwitcher');
+  el.classList.contains('active') ? closeDogSwitcher() : (renderDogSwitcher(), el.classList.add('active'));
+  }
+  function closeDogSwitcher() { document.getElementById('dogSwitcher').classList.remove('active'); }
+
+  document.addEventListener('click', (e) => {
+    const switcher = document.getElementById('dogSwitcher');
+    const badge = document.querySelector('.paw-badge');
+    if (switcher.classList.contains('active') && !switcher.contains(e.target) && !badge.contains(e.target)) closeDogSwitcher();
+  });
+
+  function renderDogSwitcher() {
+    const el = document.getElementById('dogSwitcher');
+    let html = appData.dogs.map(dog => `
+      <div class="dog-switcher-item ${dog.id === appData.activeDogId ? 'active' : ''}" onclick="selectDog(${dog.id})">
+        <div class="avatar-mini">${AVATARS[dog.avatarIndex] || AVATARS[0]}</div>
+        <div>${dog.nameJp}</div>
+      </div>`).join('');
+    html += `<div class="dog-switcher-divider"></div>
+      <div class="dog-switcher-add" onclick="addDog()">+ ${appData.lang === 'en' ? 'Add Dog' : '犬を追加'}</div>`;
+    el.innerHTML = html;
+  }
+
+  function selectDog(id) {
+    appData.activeDogId = id;
+    saveData(appData);
+    closeDogSwitcher();
+    updateHome();
+    document.getElementById('dogAvatar').innerHTML = AVATARS[getActiveDog().avatarIndex] || AVATARS[0];
+    renderLogs();
+    renderCalendar();
+    resetSwipe();
+  }
+
+  function addDog() {
+    const nameJp = prompt(appData.lang === 'en' ? 'Dog name:' : '名前（日本語）:', '');
+    if (nameJp === null) return;
+    const nameEn = prompt(appData.lang === 'en' ? 'Dog nickname:' : '名前（英語）:', '');
+    if (nameEn === null) return;
+    const newId = Math.max(0, ...appData.dogs.map(d => d.id)) + 1;
+    const newDog = { id: newId, nameJp: nameJp.trim() || 'ポチ', nameEn: nameEn.trim() || 'POCHI',
+                      breed: 'MIXED BREED', avatarIndex: appData.dogs.length % AVATARS.length, walks: [] };
+    appData.dogs.push(newDog);
+    appData.activeDogId = newId;
+    saveData(appData);
+    closeDogSwitcher();
+    updateHome();
+    document.getElementById('dogAvatar').innerHTML = AVATARS[newDog.avatarIndex];
+    renderLogs();
+    renderCalendar();
+    resetSwipe();
   }
 
   // =====================
@@ -1227,7 +1315,7 @@
       duration: selectedDuration,
       distance: (selectedDuration * 0.05).toFixed(2)
     };
-    appData.walks.push(walk);
+    getActiveDog().walks.push(walk);
     saveData(appData);
     updateHome();
 
@@ -1299,10 +1387,10 @@
   function renderLogs() {
     const list = document.getElementById('logsList');
     const dict = I18N[appData.lang] || I18N.ja;
-    if (appData.walks.length === 0) {
+    if (getActiveDog().walks.length === 0) {
       list.innerHTML = `<div class="empty-state">${dict['txt-empty']}</div>`;
     } else {
-      const html = appData.walks.slice().reverse().map(w => `
+      const html = getActiveDog().walks.slice().reverse().map(w => `
         <div class="log-item" onclick="openRoute(${w.id})">
           <div class="log-info">
             <div class="log-date">${w.dateStr}</div>
@@ -1324,13 +1412,13 @@
 
     const now = new Date();
     const weekAgo = new Date(now.getTime() - 7*24*60*60*1000);
-    const weekCount = appData.walks.filter(w => new Date(w.date) >= weekAgo).length;
+    const weekCount = getActiveDog().walks.filter(w => new Date(w.date) >= weekAgo).length;
 
     let streak = 0;
     const today = new Date(); today.setHours(0,0,0,0);
     for (let i = 0; ; i++) {
       const d = new Date(today); d.setDate(d.getDate() - i);
-      const has = appData.walks.some(w => {
+      const has = getActiveDog().walks.some(w => {
         const wd = new Date(w.date); wd.setHours(0,0,0,0);
         return wd.getTime() === d.getTime();
       });
@@ -1339,14 +1427,14 @@
 
     document.getElementById('statWeek').textContent = weekCount;
     document.getElementById('statStreak').textContent = streak;
-    document.getElementById('statTotal').textContent = appData.walks.length;
+    document.getElementById('statTotal').textContent = getActiveDog().walks.length;
   }
 
   // =====================
   // ROUTE MODAL
   // =====================
   function openRoute(id) {
-    const walk = appData.walks.find(w => w.id === id);
+    const walk = getActiveDog().walks.find(w => w.id === id);
     if (!walk) return;
     const dict = I18N[appData.lang] || I18N.ja;
     document.getElementById('modalDate').textContent = `${walk.dateStr} · ${walk.timeStr}`;
@@ -1391,7 +1479,7 @@
     }
 
     const today = new Date();
-    const walkDates = new Set(appData.walks.map(w => {
+    const walkDates = new Set(getActiveDog().walks.map(w => {
       const d = new Date(w.date);
       return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
     }));
@@ -1419,18 +1507,18 @@
   // SETTINGS VIEW
   // =====================
   function loadSettings() {
-    document.getElementById('inputNameJp').value = appData.dogNameJp;
-    document.getElementById('inputNameEn').value = appData.dogNameEn;
-    document.getElementById('inputBreed').value = appData.dogBreed;
+    document.getElementById('inputNameJp').value = getActiveDog().nameJp;
+    document.getElementById('inputNameEn').value = getActiveDog().nameEn;
+    document.getElementById('inputBreed').value = getActiveDog().breed;
     document.getElementById('inputLang').value = appData.lang;
     document.getElementById('inputTheme').value = appData.theme;
     renderAvatars();
   }
 
   function saveSettings() {
-    appData.dogNameJp = document.getElementById('inputNameJp').value.trim() || 'モモ';
-    appData.dogNameEn = document.getElementById('inputNameEn').value.trim() || 'MOMO';
-    appData.dogBreed = document.getElementById('inputBreed').value.trim() || 'FOX TERRIER';
+    getActiveDog().nameJp = document.getElementById('inputNameJp').value.trim() || 'モモ';
+    getActiveDog().nameEn = document.getElementById('inputNameEn').value.trim() || 'MOMO';
+    getActiveDog().breed = document.getElementById('inputBreed').value.trim() || 'FOX TERRIER';
     saveData(appData);
     updateHome();
     const dict = I18N[appData.lang] || I18N.ja;
@@ -1440,7 +1528,7 @@
   function clearAllData() {
     const dict = I18N[appData.lang] || I18N.ja;
     if (confirm(appData.lang === 'en' ? 'Delete all walk logs?' : 'すべての散歩記録を削除しますか？')) {
-      appData.walks = [];
+      getActiveDog().walks = [];
       saveData(appData);
       renderLogs();
       renderCalendar();
@@ -1470,7 +1558,7 @@
     setThumbX(trackPadding, false);
     updateHome();
     renderCalendar();
-    document.getElementById('dogAvatar').innerHTML = AVATARS[appData.avatarIndex] || AVATARS[0];
+    document.getElementById('dogAvatar').innerHTML = AVATARS[getActiveDog().avatarIndex] || AVATARS[0];
   });
 </script>
 
