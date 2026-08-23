@@ -1018,14 +1018,12 @@
   function applyLang() {
     const dict = I18N[appData.lang] || I18N.ja;
     Object.keys(dict).forEach(key => {
-      const el = document.getElementById(key);
-      if (el) {
-        if (key === 'dur-unit') {
-          document.querySelectorAll('.dur-unit').forEach(u => u.textContent = dict[key]);
-        } else {
-          el.textContent = dict[key];
-        }
+      if (key === 'dur-unit') {
+        document.querySelectorAll('.dur-unit').forEach(u => u.textContent = dict[key]);
+        return;
       }
+      const el = document.getElementById(key);
+      if (el) el.textContent = dict[key];
     });
     // Update done text if currently completed
     if (completed) {
