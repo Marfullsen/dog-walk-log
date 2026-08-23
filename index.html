@@ -67,6 +67,17 @@
     align-items: center;
     padding: 10px 22px 0;
   }
+
+  .top-row, .duration-row {
+    display: none;
+  }
+  .top-row.visible {
+    display: flex;
+  }
+  .duration-row.visible {
+    display: block;
+  }
+
   .menu-icon {
     width: 22px; height: 16px;
     display: flex; flex-direction: column; justify-content: space-between;
@@ -1159,6 +1170,11 @@
       btn.classList.add('active');
       selectedDuration = parseInt(btn.dataset.min);
     });
+  });
+
+  document.querySelector('.illust-wrap').addEventListener('dblclick', () => {
+    document.querySelector('.top-row').classList.toggle('visible');
+    document.querySelector('.duration-row').classList.toggle('visible');
   });
 
   // =====================
