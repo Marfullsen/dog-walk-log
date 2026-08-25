@@ -6,15 +6,15 @@
 <title>今日の散歩</title>
 <style>
   :root{
-    --cream: #f4ecd8;
-    --cream-deep: #ece1c8;
-    --navy: #2b3a52;
-    --navy-soft: #3d4f6b;
-    --terracotta: #d99a6c;
-    --terracotta-deep: #cf8a55;
-    --sage: #93a97e;
-    --sage-deep: #7d9468;
-    --cream-card: #faf5e9;
+    --background: #f4ecd8;
+    --background-deep: #ece1c8;
+    --primary: #2b3a52;
+    --primary-soft: #3d4f6b;
+    --accent: #d99a6c;
+    --accent-deep: #cf8a55;
+    --secondary: #93a97e;
+    --secondary-deep: #7d9468;
+    --card: #faf5e9;
   }
 
   * { box-sizing: border-box; }
@@ -37,7 +37,7 @@
   .phone {
     width: 320px;
     height: 660px;
-    background: var(--cream);
+    background: var(--background);
     border-radius: 40px;
     overflow: hidden;
     position: relative;
@@ -55,7 +55,7 @@
     padding: 14px 22px 4px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--navy);
+    color: var(--primary);
   }
   .status-icons { display: flex; gap: 5px; align-items: center; }
   .status-icons svg { display: block; }
@@ -84,7 +84,7 @@
     gap: 14px;
   }
   .theme-icon {
-    color: var(--navy);
+    color: var(--primary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -95,7 +95,7 @@
     display: flex; flex-direction: column; justify-content: space-between;
     cursor: pointer;
   }
-  .menu-icon span { display:block; height: 2.5px; background: var(--navy); border-radius: 2px; }
+  .menu-icon span { display:block; height: 2.5px; background: var(--primary); border-radius: 2px; }
 
   .sidenav-overlay {
   position: absolute; inset: 0; background: rgba(43,58,82,0.45);
@@ -106,7 +106,7 @@
 
   .sidenav {
     position: absolute; top: 0; left: 0; bottom: 0; width: 78%;
-    background: var(--cream); z-index: 61;
+    background: var(--background); z-index: 61;
     transform: translateX(-100%); transition: transform 0.3s ease;
     padding: 60px 18px 20px; overflow-y: auto;
     box-shadow: 8px 0 24px rgba(0,0,0,0.2);
@@ -120,40 +120,40 @@
     display: flex; flex-direction: column;
   }
   #txt-sidenav-title {
-    font-size: 20px; font-weight: 800; color: var(--navy);
+    font-size: 20px; font-weight: 800; color: var(--primary);
   }
   #txt-sidenav-sub {
     font-size: 10px; font-weight: 700; letter-spacing: 2px;
-    color: var(--sage-deep); margin-top: 2px;
+    color: var(--secondary-deep); margin-top: 2px;
   }
   .sidenav-close {
-    background: none; border: none; font-size: 22px; color: var(--navy); cursor: pointer;
+    background: none; border: none; font-size: 22px; color: var(--primary); cursor: pointer;
   }
 
   .paw-badge {
     width: 42px; height: 42px;
     border-radius: 50%;
-    border: 2px solid var(--navy);
+    border: 2px solid var(--primary);
     display: flex; align-items: center; justify-content: center;
-    color: var(--navy);
+    color: var(--primary);
   }
 
   .dog-switcher {
   position: absolute; top: 68px; right: 22px; width: 220px;
-  background: var(--cream-card); border-radius: 18px;
+  background: var(--card); border-radius: 18px;
   box-shadow: 0 12px 30px rgba(0,0,0,0.25);
   border: 1px solid rgba(43,58,82,0.1);
   padding: 8px; display: none; flex-direction: column; gap: 4px; z-index: 40;
   }
   .dog-switcher.active { display: flex; }
   .dog-switcher-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; cursor: pointer; }
-  .dog-switcher-item:hover { background: var(--cream-deep); }
-  .dog-switcher-item.active { background: var(--terracotta); color: #fff; }
-  .dog-switcher-item .avatar-mini { width: 34px; height: 34px; border-radius: 50%; background: var(--cream-deep); display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0; }
+  .dog-switcher-item:hover { background: var(--background-deep); }
+  .dog-switcher-item.active { background: var(--accent); color: #fff; }
+  .dog-switcher-item .avatar-mini { width: 34px; height: 34px; border-radius: 50%; background: var(--background-deep); display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0; }
   .dog-switcher-item .avatar-mini svg { width: 30px; height: 30px; }
   .dog-switcher-divider { height:1px; background: rgba(43,58,82,0.1); margin:4px 6px; }
-  .dog-switcher-add { display: flex; align-items:center; gap:10px; padding: 8px 10px; border-radius:12px; cursor:pointer; color: var(--sage-deep); font-weight:700; font-size:13px; }
-  .dog-switcher-add:hover { background: var(--cream-deep); }
+  .dog-switcher-add { display: flex; align-items:center; gap:10px; padding: 8px 10px; border-radius:12px; cursor:pointer; color: var(--secondary-deep); font-weight:700; font-size:13px; }
+  .dog-switcher-add:hover { background: var(--background-deep); }
 
   /* View system */
   .view-container {
@@ -188,7 +188,7 @@
   .title-jp {
     font-size: 26px;
     font-weight: 800;
-    color: var(--navy);
+    color: var(--primary);
     margin: 0;
     letter-spacing: 0.5px;
   }
@@ -196,16 +196,16 @@
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
-    color: var(--sage-deep);
+    color: var(--secondary-deep);
     margin-top: 2px;
   }
 
   .stamp {
-    border: 1.5px dashed var(--navy);
+    border: 1.5px dashed var(--primary);
     border-radius: 6px;
     padding: 6px 10px;
     text-align: center;
-    color: var(--navy);
+    color: var(--primary);
     transform: rotate(3deg);
     background: rgba(255,255,255,0.15);
   }
@@ -225,7 +225,7 @@
     width: 240px;
     height: 240px;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, var(--cream-deep), var(--sage) 70%, var(--sage-deep) 100%);
+    background: radial-gradient(circle at 35% 30%, var(--background-deep), var(--secondary) 70%, var(--secondary-deep) 100%);
     margin: 0 auto;
     position: relative;
     overflow: hidden;
@@ -244,7 +244,7 @@
     left: 0;
     right: 0;
     height: 70px;
-    background: var(--sage-deep);
+    background: var(--secondary-deep);
     border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   }
 
@@ -274,7 +274,7 @@
   .name-jp {
     font-size: 24px;
     font-weight: 800;
-    color: var(--navy);
+    color: var(--primary);
     display: flex;
     align-items: baseline;
     gap: 10px;
@@ -283,24 +283,24 @@
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
-    color: var(--navy-soft);
+    color: var(--primary-soft);
   }
   .breed-row {
     font-size: 11px;
     letter-spacing: 1.5px;
-    color: var(--sage-deep);
+    color: var(--secondary-deep);
     font-weight: 700;
     padding: 2px 26px 0;
   }
-  .paw-side { color: var(--navy); opacity: 0.85; }
+  .paw-side { color: var(--primary); opacity: 0.85; }
 
   .last-walk {
     font-size: 12px;
-    color: var(--navy-soft);
+    color: var(--primary-soft);
     padding: 6px 26px 0;
     font-weight: 600;
   }
-  .last-walk span { color: var(--terracotta-deep); }
+  .last-walk span { color: var(--accent-deep); }
 
   /* Duration selector */
   .duration-row {
@@ -309,7 +309,7 @@
   .duration-label {
     font-size: 10px;
     font-weight: 700;
-    color: var(--sage-deep);
+    color: var(--secondary-deep);
     letter-spacing: 0.8px;
     margin-bottom: 8px;
     display: block;
@@ -322,9 +322,9 @@
     flex: 1;
     height: 36px;
     border-radius: 10px;
-    border: 2px solid var(--cream-deep);
-    background: var(--cream-card);
-    color: var(--navy-soft);
+    border: 2px solid var(--background-deep);
+    background: var(--card);
+    color: var(--primary-soft);
     font-family: inherit;
     font-size: 13px;
     font-weight: 700;
@@ -332,8 +332,8 @@
     transition: all 0.2s ease;
   }
   .dur-btn.active {
-    border-color: var(--terracotta);
-    background: var(--terracotta);
+    border-color: var(--accent);
+    background: var(--accent);
     color: #fff;
     box-shadow: 0 3px 8px rgba(207,138,85,0.35);
   }
@@ -343,7 +343,7 @@
     margin: 14px 22px 0;
     position: relative;
     height: 58px;
-    background: var(--terracotta);
+    background: var(--accent);
     border-radius: 30px;
     display: flex;
     align-items: center;
@@ -355,7 +355,7 @@
   .swipe-text {
     width: 100%;
     text-align: center;
-    color: var(--navy);
+    color: var(--primary);
     pointer-events: none;
     transition: opacity 0.2s ease;
   }
@@ -369,11 +369,11 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: var(--navy);
+    background: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--terracotta);
+    color: var(--accent);
     cursor: grab;
     touch-action: none;
     box-shadow: 0 3px 8px rgba(0,0,0,0.3);
@@ -383,10 +383,10 @@
   .swipe-thumb:active { cursor: grabbing; }
 
   .swipe-wrap.completed {
-    background: var(--sage-deep);
+    background: var(--secondary-deep);
     box-shadow: 0 6px 14px rgba(125,148,104,0.45);
   }
-  .swipe-wrap.completed .swipe-thumb { color: var(--sage-deep); }
+  .swipe-wrap.completed .swipe-thumb { color: var(--secondary-deep); }
 
   /* Logs View */
   .stats-row {
@@ -396,7 +396,7 @@
   }
   .stat-card {
     flex: 1;
-    background: var(--cream-card);
+    background: var(--card);
     border-radius: 16px;
     padding: 12px 8px;
     text-align: center;
@@ -405,12 +405,12 @@
   .stat-card .num {
     font-size: 22px;
     font-weight: 800;
-    color: var(--navy);
+    color: var(--primary);
   }
   .stat-card .label {
     font-size: 9px;
     font-weight: 700;
-    color: var(--sage-deep);
+    color: var(--secondary-deep);
     letter-spacing: 0.5px;
     margin-top: 4px;
   }
@@ -430,14 +430,14 @@
   }
   .log-item:active { opacity: 0.7; }
   .log-info { display: flex; flex-direction: column; gap: 2px; }
-  .log-date { font-size: 14px; font-weight: 700; color: var(--navy); }
-  .log-time { font-size: 11px; color: var(--navy-soft); font-weight: 600; }
-  .log-meta { font-size: 10px; color: var(--terracotta-deep); font-weight: 700; margin-top: 2px; }
-  .log-paw { color: var(--terracotta); }
+  .log-date { font-size: 14px; font-weight: 700; color: var(--primary); }
+  .log-time { font-size: 11px; color: var(--primary-soft); font-weight: 600; }
+  .log-meta { font-size: 10px; color: var(--accent-deep); font-weight: 700; margin-top: 2px; }
+  .log-paw { color: var(--accent); }
   .empty-state {
     text-align: center;
     padding: 40px 22px;
-    color: var(--navy-soft);
+    color: var(--primary-soft);
     font-size: 13px;
     font-weight: 600;
   }
@@ -452,7 +452,7 @@
   .calendar-header button {
     background: none;
     border: none;
-    color: var(--navy);
+    color: var(--primary);
     font-size: 18px;
     font-weight: 800;
     cursor: pointer;
@@ -463,7 +463,7 @@
   .calendar-month {
     font-size: 16px;
     font-weight: 800;
-    color: var(--navy);
+    color: var(--primary);
     letter-spacing: 1px;
   }
   .calendar-grid {
@@ -476,7 +476,7 @@
   .cal-weekday {
     font-size: 10px;
     font-weight: 700;
-    color: var(--sage-deep);
+    color: var(--secondary-deep);
     padding-bottom: 6px;
     letter-spacing: 0.5px;
   }
@@ -488,20 +488,20 @@
     border-radius: 50%;
     font-size: 13px;
     font-weight: 700;
-    color: var(--navy);
+    color: var(--primary);
     position: relative;
   }
   .cal-day.other-month { color: rgba(43,58,82,0.25); }
   .cal-day.today {
-    border: 2px solid var(--navy);
+    border: 2px solid var(--primary);
   }
   .cal-day.has-walk {
-    background: var(--terracotta);
+    background: var(--accent);
     color: #fff;
     box-shadow: 0 2px 6px rgba(207,138,85,0.4);
   }
   .cal-day.has-walk.today {
-    border: 2px solid var(--navy);
+    border: 2px solid var(--primary);
   }
 
   /* Settings View */
@@ -509,7 +509,7 @@
     padding: 6px 22px 14px;
   }
   .setting-item {
-    background: var(--cream-card);
+    background: var(--card);
     border-radius: 14px;
     padding: 14px 16px;
     margin-bottom: 10px;
@@ -518,7 +518,7 @@
   .setting-label {
     font-size: 10px;
     font-weight: 700;
-    color: var(--sage-deep);
+    color: var(--secondary-deep);
     letter-spacing: 0.8px;
     margin-bottom: 6px;
     text-transform: uppercase;
@@ -529,7 +529,7 @@
     background: transparent;
     font-size: 16px;
     font-weight: 700;
-    color: var(--navy);
+    color: var(--primary);
     font-family: inherit;
     outline: none;
   }
@@ -539,7 +539,7 @@
     background: transparent;
     font-size: 15px;
     font-weight: 700;
-    color: var(--navy);
+    color: var(--primary);
     font-family: inherit;
     outline: none;
     cursor: pointer;
@@ -555,7 +555,7 @@
     height: 64px;
     border-radius: 50%;
     border: 3px solid transparent;
-    background: var(--cream-deep);
+    background: var(--background-deep);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -564,7 +564,7 @@
     overflow: hidden;
   }
   .avatar-option svg { width: 52px; height: 52px; }
-  .avatar-option.active { border-color: var(--terracotta); box-shadow: 0 4px 10px rgba(207,138,85,0.35); }
+  .avatar-option.active { border-color: var(--accent); box-shadow: 0 4px 10px rgba(207,138,85,0.35); }
   .setting-btn {
     width: 100%;
     padding: 14px;
@@ -583,12 +583,12 @@
     color: #b54545;
   }
   .btn-secondary {
-    background: var(--cream-deep);
-    color: var(--navy);
+    background: var(--background-deep);
+    color: var(--primary);
   }
   .setting-note {
     font-size: 11px;
-    color: var(--navy-soft);
+    color: var(--primary-soft);
     text-align: center;
     padding: 8px 0;
   }
@@ -608,7 +608,7 @@
   }
   .modal-overlay.active { display: flex; }
   .modal-card {
-    background: var(--cream);
+    background: var(--background);
     border-radius: 24px;
     width: 100%;
     max-height: 90%;
@@ -622,30 +622,30 @@
     background: none;
     border: none;
     font-size: 22px;
-    color: var(--navy);
+    color: var(--primary);
     cursor: pointer;
     width: 32px;
     height: 32px;
     line-height: 32px;
     border-radius: 50%;
   }
-  .modal-close:hover { background: var(--cream-deep); }
+  .modal-close:hover { background: var(--background-deep); }
   .modal-title {
     font-size: 18px;
     font-weight: 800;
-    color: var(--navy);
+    color: var(--primary);
     margin-bottom: 2px;
   }
   .modal-sub {
     font-size: 12px;
-    color: var(--sage-deep);
+    color: var(--secondary-deep);
     font-weight: 700;
     margin-bottom: 14px;
   }
   .route-map {
     width: 100%;
     border-radius: 16px;
-    background: var(--cream-card);
+    background: var(--card);
     border: 1px solid rgba(43,58,82,0.08);
   }
   .modal-stats {
@@ -655,7 +655,7 @@
   }
   .modal-stat {
     flex: 1;
-    background: var(--cream-card);
+    background: var(--card);
     border-radius: 14px;
     padding: 12px;
     text-align: center;
@@ -664,12 +664,12 @@
   .modal-stat .val {
     font-size: 20px;
     font-weight: 800;
-    color: var(--navy);
+    color: var(--primary);
   }
   .modal-stat .lbl {
     font-size: 10px;
     font-weight: 700;
-    color: var(--sage-deep);
+    color: var(--secondary-deep);
     margin-top: 4px;
     letter-spacing: 0.5px;
   }
@@ -680,7 +680,7 @@
     display: flex;
     justify-content: space-around;
     padding: 14px 10px 18px;
-    background: var(--cream-deep);
+    background: var(--background-deep);
     border-top: 1px solid rgba(43,58,82,0.12);
     flex-shrink: 0;
   }
@@ -689,7 +689,7 @@
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    color: var(--navy);
+    color: var(--primary);
     opacity: 0.45;
     cursor: pointer;
     transition: opacity 0.2s ease;
@@ -727,10 +727,10 @@
     <div class="theme-icon" onclick="cycleTheme()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.1 0 2-.9 2-2 0-.5-.2-.95-.52-1.29-.3-.32-.48-.76-.48-1.21 0-1 .81-1.5 1.81-1.5H17c2.76 0 5-2.24 5-5C22 6.03 17.52 2 12 2z"/>
-        <circle cx="6.5" cy="11.5" r="1.5" fill="var(--cream)"/>
-        <circle cx="9.5" cy="7.5" r="1.5" fill="var(--cream)"/>
-        <circle cx="14.5" cy="7.5" r="1.5" fill="var(--cream)"/>
-        <circle cx="17.5" cy="11.5" r="1.5" fill="var(--cream)"/>
+        <circle cx="6.5" cy="11.5" r="1.5" fill="var(--background)"/>
+        <circle cx="9.5" cy="7.5" r="1.5" fill="var(--background)"/>
+        <circle cx="14.5" cy="7.5" r="1.5" fill="var(--background)"/>
+        <circle cx="17.5" cy="11.5" r="1.5" fill="var(--background)"/>
       </svg>
     </div>
     <div class="dog-switcher" id="dogSwitcher"></div>
@@ -970,30 +970,30 @@
       <div class="modal-title" id="txt-route-title">Walk Route</div>
       <div class="modal-sub" id="modalDate">2026.08.21 · 07:30</div>
       <svg class="route-map" viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg" style="height:180px;">
-        <rect width="260" height="180" rx="16" fill="var(--cream-card)"/>
+        <rect width="260" height="180" rx="16" fill="var(--card)"/>
         <!-- park elements -->
-        <circle cx="40" cy="40" r="14" fill="var(--sage)" opacity="0.25"/>
-        <circle cx="220" cy="140" r="18" fill="var(--sage)" opacity="0.25"/>
-        <circle cx="200" cy="50" r="10" fill="var(--sage)" opacity="0.25"/>
-        <rect x="100" y="30" width="40" height="30" rx="4" fill="var(--cream-deep)"/>
-        <polygon points="100,30 120,12 140,30" fill="var(--navy-soft)" opacity="0.3"/>
+        <circle cx="40" cy="40" r="14" fill="var(--secondary)" opacity="0.25"/>
+        <circle cx="220" cy="140" r="18" fill="var(--secondary)" opacity="0.25"/>
+        <circle cx="200" cy="50" r="10" fill="var(--secondary)" opacity="0.25"/>
+        <rect x="100" y="30" width="40" height="30" rx="4" fill="var(--background-deep)"/>
+        <polygon points="100,30 120,12 140,30" fill="var(--primary-soft)" opacity="0.3"/>
         <!-- route path -->
         <path d="M30 150 C50 120 80 130 110 100 C140 70 160 90 190 60 C210 40 230 50 240 30" 
-              stroke="var(--terracotta)" stroke-width="4" fill="none" stroke-dasharray="6 4" stroke-linecap="round" opacity="0.9"/>
+              stroke="var(--accent)" stroke-width="4" fill="none" stroke-dasharray="6 4" stroke-linecap="round" opacity="0.9"/>
         <!-- start -->
-        <circle cx="30" cy="150" r="7" fill="var(--navy)"/>
-        <text x="30" y="170" text-anchor="middle" font-size="9" fill="var(--navy)" font-weight="700" font-family="sans-serif">START</text>
+        <circle cx="30" cy="150" r="7" fill="var(--primary)"/>
+        <text x="30" y="170" text-anchor="middle" font-size="9" fill="var(--primary)" font-weight="700" font-family="sans-serif">START</text>
         <!-- end -->
-        <circle cx="240" cy="30" r="7" fill="var(--sage-deep)"/>
-        <text x="240" y="24" text-anchor="middle" font-size="9" fill="var(--navy)" font-weight="700" font-family="sans-serif">GOAL</text>
+        <circle cx="240" cy="30" r="7" fill="var(--secondary-deep)"/>
+        <text x="240" y="24" text-anchor="middle" font-size="9" fill="var(--primary)" font-weight="700" font-family="sans-serif">GOAL</text>
         <!-- paw prints along path -->
-        <g fill="var(--terracotta)" opacity="0.5">
+        <g fill="var(--accent)" opacity="0.5">
           <ellipse cx="70" cy="125" rx="2.5" ry="3.5"/>
           <ellipse cx="75" cy="118" rx="2.5" ry="3.5"/>
           <ellipse cx="65" cy="118" rx="2.5" ry="3.5"/>
           <ellipse cx="70" cy="132" rx="4" ry="3"/>
         </g>
-        <g fill="var(--terracotta)" opacity="0.5">
+        <g fill="var(--accent)" opacity="0.5">
           <ellipse cx="150" cy="80" rx="2.5" ry="3.5"/>
           <ellipse cx="155" cy="73" rx="2.5" ry="3.5"/>
           <ellipse cx="145" cy="73" rx="2.5" ry="3.5"/>
@@ -1048,8 +1048,8 @@
             c-14.188,90.688,18.406,127.297,51.266,134.578C420.758,332.82,404.602,364.992,382.742,390.117z"/>
           <path d="M266.852,338.086c-25.453,0-46.094,16.781-46.094,37.5s20.641,37.5,46.094,37.5s46.094-16.781,46.094-37.5
             S292.305,338.086,266.852,338.086z"/>
-          <circle cx="200" cy="270" r="22" fill="var(--cream-card)"/>
-          <circle cx="320" cy="270" r="32" fill="var(--cream-deep)"/>
+          <circle cx="200" cy="270" r="22" fill="var(--card)"/>
+          <circle cx="320" cy="270" r="32" fill="var(--background-deep)"/>
         </g>
       </svg>
       <span id="nav-txt-set">プロフィール</span>
@@ -1147,65 +1147,65 @@
     warm: {
       label: 'Warm Sand',
       colors: {
-        '--cream': '#f4ecd8', '--cream-deep': '#ece1c8', '--navy': '#2b3a52',
-        '--navy-soft': '#3d4f6b', '--terracotta': '#d99a6c', '--terracotta-deep': '#cf8a55',
-        '--sage': '#93a97e', '--sage-deep': '#7d9468', '--cream-card': '#faf5e9'
+        '--background': '#f4ecd8', '--background-deep': '#ece1c8', '--primary': '#2b3a52',
+        '--primary-soft': '#3d4f6b', '--accent': '#d99a6c', '--accent-deep': '#cf8a55',
+        '--secondary': '#93a97e', '--secondary-deep': '#7d9468', '--card': '#faf5e9'
       }
     },
     cool: {
       label: 'Cool Breeze',
       colors: {
-        '--cream': '#eef2f5', '--cream-deep': '#dde5ec', '--navy': '#2f4858',
-        '--navy-soft': '#4a6572', '--terracotta': '#7a9eb8', '--terracotta-deep': '#6289a8',
-        '--sage': '#9ab5ad', '--sage-deep': '#829e96', '--cream-card': '#f5f8fa'
+        '--background': '#eef2f5', '--background-deep': '#dde5ec', '--primary': '#2f4858',
+        '--primary-soft': '#4a6572', '--accent': '#7a9eb8', '--accent-deep': '#6289a8',
+        '--secondary': '#9ab5ad', '--secondary-deep': '#829e96', '--card': '#f5f8fa'
       }
     },
     autumn: {
       label: 'Autumn Leaf',
       colors: {
-        '--cream': '#f5ede0', '--cream-deep': '#e8dcc8', '--navy': '#3d2817',
-        '--navy-soft': '#5a3a22', '--terracotta': '#c76f3d', '--terracotta-deep': '#a85a2f',
-        '--sage': '#b8923f', '--sage-deep': '#96772e', '--cream-card': '#faf3e6'
+        '--background': '#f5ede0', '--background-deep': '#e8dcc8', '--primary': '#3d2817',
+        '--primary-soft': '#5a3a22', '--accent': '#c76f3d', '--accent-deep': '#a85a2f',
+        '--secondary': '#b8923f', '--secondary-deep': '#96772e', '--card': '#faf3e6'
       }
     },
     classic: {
       label: 'Classic',
       colors: {
-        '--cream': '#f5f5f0', '--cream-deep': '#e8e8e0', '--navy': '#1a1a1a',
-        '--navy-soft': '#2d2d2d', '--terracotta': '#e63946', '--terracotta-deep': '#c1121f',
-        '--sage': '#a8a8a8', '--sage-deep': '#808080', '--cream-card': '#fafaf5'
+        '--background': '#f5f5f0', '--background-deep': '#e8e8e0', '--primary': '#1a1a1a',
+        '--primary-soft': '#2d2d2d', '--accent': '#e63946', '--accent-deep': '#c1121f',
+        '--secondary': '#a8a8a8', '--secondary-deep': '#808080', '--card': '#fafaf5'
       }
     },
     sepia: {
       label: 'Sepia',
       colors: {
-        '--cream': '#f4e8d0', '--cream-deep': '#e6d5b0', '--navy': '#3d2817',
-        '--navy-soft': '#5a3a22', '--terracotta': '#c76f3d', '--terracotta-deep': '#a85a2f',
-        '--sage': '#8b7355', '--sage-deep': '#6d5a42', '--cream-card': '#faf3e6'
+        '--background': '#f4e8d0', '--background-deep': '#e6d5b0', '--primary': '#3d2817',
+        '--primary-soft': '#5a3a22', '--accent': '#c76f3d', '--accent-deep': '#a85a2f',
+        '--secondary': '#8b7355', '--secondary-deep': '#6d5a42', '--card': '#faf3e6'
       }
     },
     neon: {
       label: 'Neon',
       colors: {
-        '--cream': '#0a0a1a', '--cream-deep': '#141428', '--navy': '#00ffff',
-        '--navy-soft': '#00cccc', '--terracotta': '#ff00ff', '--terracotta-deep': '#cc00cc',
-        '--sage': '#ffff00', '--sage-deep': '#cccc00', '--cream-card': '#1a1a2e'
+        '--background': '#0a0a1a', '--background-deep': '#141428', '--primary': '#00ffff',
+        '--primary-soft': '#00cccc', '--accent': '#ff00ff', '--accent-deep': '#cc00cc',
+        '--secondary': '#ffff00', '--secondary-deep': '#cccc00', '--card': '#1a1a2e'
       }
     },
     forest: {
       label: 'Forest',
       colors: {
-        '--cream': '#1a2e1a', '--cream-deep': '#0f1f0f', '--navy': '#90ee90',
-        '--navy-soft': '#7bc87b', '--terracotta': '#ff6b6b', '--terracotta-deep': '#e65555',
-        '--sage': '#4a7c4a', '--sage-deep': '#3a633a', '--cream-card': '#243824'
+        '--background': '#1a2e1a', '--background-deep': '#0f1f0f', '--primary': '#90ee90',
+        '--primary-soft': '#7bc87b', '--accent': '#ff6b6b', '--accent-deep': '#e65555',
+        '--secondary': '#4a7c4a', '--secondary-deep': '#3a633a', '--card': '#243824'
       }
     },
     sunset: {
       label: 'Sunset',
       colors: {
-        '--cream': '#2d1b3d', '--cream-deep': '#1f1229', '--navy': '#ff9f43',
-        '--navy-soft': '#ee8833', '--terracotta': '#ff6b9d', '--terracotta-deep': '#e65588',
-        '--sage': '#c44569', '--sage-deep': '#a83854', '--cream-card': '#3d2552'
+        '--background': '#2d1b3d', '--background-deep': '#1f1229', '--primary': '#ff9f43',
+        '--primary-soft': '#ee8833', '--accent': '#ff6b9d', '--accent-deep': '#e65588',
+        '--secondary': '#c44569', '--secondary-deep': '#a83854', '--card': '#3d2552'
       }
     }
   };
