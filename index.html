@@ -1571,10 +1571,13 @@ homeView.addEventListener('touchend', () => { swiping = false; });
   document.addEventListener('touchmove', onPointerMove, { passive: true });
   document.addEventListener('touchend', onPointerUp);
 
-  wrap.addEventListener('click', (e) => {
-    if (completed && e.target === wrap) resetSwipe();
-  });
+  // wrap.addEventListener('click', (e) => {
+  //   if (completed && e.target === wrap) resetSwipe();
+  // });
 
+  thumb.addEventListener('click', () => {
+    if (completed) resetSwipe();
+  });
   // =====================
   // LOGS VIEW
   // =====================
