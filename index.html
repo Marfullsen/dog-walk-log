@@ -705,6 +705,22 @@
   @media (prefers-reduced-motion: reduce) {
     .swipe-thumb, .swipe-text, .view, .modal-overlay { transition: none; animation: none; }
   }
+
+  @media (max-width: 400px) {
+    .phone {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+    }
+    .status-bar {
+      display: none;
+    }
+    body {
+      display: block; /* remove the centering that assumes a smaller floating frame */
+    }
+  }
 </style>
 </head>
 <body>
@@ -940,23 +956,8 @@
           <div class="setting-label" id="txt-label-breed">犬種 / BREED</div>
           <input type="text" class="setting-input" id="inputBreed" value="FOX TERRIER" maxlength="20">
         </div>
-        <!-- <div class="setting-item">
-          <div class="setting-label" id="txt-label-lang">言語 / LANGUAGE</div>
-          <select class="setting-select" id="inputLang" onchange="onLangChange()">
-            <option value="ja">日本語</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-        <div class="setting-item">
-          <div class="setting-label" id="txt-label-theme">カラーテーマ / THEME</div>
-          <select class="setting-select" id="inputTheme" onchange="onThemeChange()">
-            <option value="warm">Warm Sand</option>
-            <option value="cool">Cool Breeze</option>
-            <option value="autumn">Autumn Leaf</option>
-          </select>
-        </div> -->
         <button class="setting-btn btn-secondary" onclick="saveSettings()" id="txt-btn-save">プロフィールを保存 / SAVE</button>
-        <!-- <button class="setting-btn btn-danger" onclick="clearAllData()" id="txt-btn-reset">データをリセット / RESET DATA</button> -->
+        <button class="setting-btn btn-danger" onclick="deleteCurrentDog()" id="txt-btn-delete-dog">この犬を削除 / DELETE DOG</button>
         <div class="setting-note">Dog Walk Log v1.1</div>
       </div>
     </div>
@@ -1086,7 +1087,10 @@
       'nav-txt-home': 'ホーム', 'nav-txt-logs': '記録', 'nav-txt-cal': 'カレンダー', 'nav-txt-set': '設定',
       'dur-unit': '分',
       'done-jp': '完了しました！', 'done-en': 'WALK LOGGED',
-      'nav-txt-set': 'プロフィール', 'txt-set-title': 'プロフィール', 'txt-set-sub': 'PROFILE'
+      'nav-txt-set': 'プロフィール', 'txt-set-title': 'プロフィール', 'txt-set-sub': 'PROFILE',
+      'txt-btn-delete-dog': 'この犬を削除 / DELETE DOG',
+      'confirm-delete-dog': 'を削除しますか？すべての散歩記録も削除されます。',
+      'alert-last-dog': '最後の1匹は削除できません'
     },
     en: {
       'txt-home-title': 'Today\'s Walk', 'txt-home-sub': 'WALK LOG',
@@ -1110,7 +1114,10 @@
       'nav-txt-home': 'HOME', 'nav-txt-logs': 'LOGS', 'nav-txt-cal': 'CAL', 'nav-txt-set': 'SETTINGS',
       'dur-unit': 'min',
       'done-jp': 'Logged!', 'done-en': 'WALK SAVED',
-      'nav-txt-set': 'PROFILE', 'txt-set-title': 'Profile', 'txt-set-sub': 'DOG INFO'
+      'nav-txt-set': 'PROFILE', 'txt-set-title': 'Profile', 'txt-set-sub': 'DOG INFO',
+      'txt-btn-delete-dog': 'DELETE DOG',
+      'confirm-delete-dog': 'Delete this dog? All its walk logs will be deleted too.',
+      'alert-last-dog': "You can't delete your only dog."
     }
   };
 
@@ -1385,9 +1392,9 @@
   }
 
   function addDog() {
-    const nameJp = prompt(appData.lang === 'en' ? 'Dog name:' : '名前（日本語）:', '');
+    const nameJp = prompt(appData.lang === 'en' ? 'Dog name:' : '名前', '');
     if (nameJp === null) return;
-    const nameEn = prompt(appData.lang === 'en' ? 'Dog nickname:' : '名前（英語）:', '');
+    const nameEn = prompt(appData.lang === 'en' ? 'Dog nickname:' : 'あだ名', '');
     if (nameEn === null) return;
     const newId = Math.max(0, ...appData.dogs.map(d => d.id)) + 1;
     const newDog = { id: newId, nameJp: nameJp.trim() || 'ポチ', nameEn: nameEn.trim() || 'POCHI',
@@ -1400,6 +1407,34 @@
     document.getElementById('dogAvatar').innerHTML = AVATARS[newDog.avatarIndex];
     renderLogs();
     renderCalendar();
+    resetSwipe();
+  }
+
+  function deleteCurrentDog() {
+    const dict = I18N[appData.lang] || I18N.ja;
+
+    if (appData.dogs.length <= 1) {
+      alert(dict['alert-last-dog']);
+      return;
+    }
+
+    const dog = getActiveDog();
+    const dogLabel = appData.lang === 'en' ? dog.nameEn : dog.nameJp;
+    const confirmMsg = appData.lang === 'en'
+      ? `Delete "${dogLabel}"? All its walk logs will be deleted too.`
+      : `「${dogLabel}」${dict['confirm-delete-dog']}`;
+
+    if (!confirm(confirmMsg)) return;
+
+    appData.dogs = appData.dogs.filter(d => d.id !== dog.id);
+    appData.activeDogId = appData.dogs[0].id; // fall back to first remaining dog
+    saveData(appData);
+
+    document.getElementById('dogAvatar').innerHTML = AVATARS[getActiveDog().avatarIndex] || AVATARS[0];
+    updateHome();
+    renderLogs();
+    renderCalendar();
+    loadSettings(); // refresh profile fields to show the new active dog
     resetSwipe();
   }
 
