@@ -170,7 +170,7 @@
     flex-direction: column;
     animation: fadeIn 0.28s ease;
     flex: 1;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
   }
   .view.active { display: flex; }
 
@@ -707,24 +707,95 @@
     .swipe-thumb, .swipe-text, .view, .modal-overlay { transition: none; animation: none; }
   }
 
-  @media (max-width: 768px) {
-    body {
-      display: block;
-    }
-
-    .phone {
-      border-radius: 0;
-      border: none;
-      box-shadow: none;
-      transform: scale(1.3);
-      transform-origin: 0 0;
-      width:77%;
-      height: 77%;
-    }
-    .status-bar {
-      display: none;
-    }
+  /* ========================================= */
+  /* Mediaqueries for mobile browsers  */
+  /* ========================================= */
+@media (max-width: 580px) {
+  body {
+    display: block;
   }
+  .phone {
+    width: 100%;
+    height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  /* Fluid scaling: elements grow smoothly based on screen width, but cap at a max size */
+  .title-jp { font-size: clamp(32px, 9vw, 42px); }
+  .title-en { font-size: clamp(18px, 3.5vw, 18px); }
+
+  .stamp {
+    padding: clamp(8px, 2.5vw, 14px) clamp(12px, 4vw, 18px);
+    border-radius: clamp(6px, 2vw, 10px);
+  }
+
+  .stamp .num {
+    font-size: clamp(24px, 8vw, 36px);
+  }
+
+  .stamp .month {
+    font-size: clamp(11px, 3.5vw, 15px);
+  }
+
+  .illust-wrap {
+    width: clamp(310px, 90vw, 420px);
+    height: clamp(310px, 90vw, 420px);
+  }
+  .illust-circle {
+    width: clamp(290px, 85vw, 400px);
+    height: clamp(290px, 85vw, 400px);
+  }
+  .dog-svg { width: clamp(240px, 70vw, 320px); }
+
+  .name-jp { font-size: clamp(24px, 7vw, 32px); }
+  .name-en { font-size: clamp(20px, 3.5vw, 16px); }
+
+  .dur-btn {
+    height: clamp(36px, 10vw, 48px);
+    font-size: clamp(13px, 3.5vw, 16px);
+  }
+
+  .swipe-component {
+    /* centrar */
+  }
+
+  .swipe-wrap { height: clamp(70px, 18vw, 90px); border-radius: 999px; }
+  .swipe-thumb {
+    width: clamp(62px, 16vw, 82px);
+    height: clamp(62px, 16vw, 82px);
+  }
+  .swipe-text .jp { font-size: clamp(18px, 5vw, 22px); }
+  .swipe-text .en { font-size: clamp(14px, 2.5vw, 12px); }
+
+  .dog-info-group { gap: clamp(8px, 2.5vw, 15px); }
+  .name-jp { font-size: clamp(30px, 8.5vw, 40px); }
+  .name-en { font-size: clamp(15px, 4vw, 20px); }
+  .paw-side svg { width: clamp(22px, 6vw, 28px); height: clamp(22px, 6vw, 28px); }
+  .breed-row { font-size: clamp(18px, 3vw, 14px); }
+  .last-walk { font-size: clamp(18px, 3.5vw, 16px); }
+
+  .dog-info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* 6px, 12px */
+  }
+  /* bottom navbar */
+  .bottom-nav {
+    padding: clamp(14px, 4vw, 20px) 10px clamp(18px, 5vw, 24px);
+  }
+  .nav-item {
+    gap: clamp(4px, 1.5vw, 8px);
+  }
+  .nav-item svg {
+    width: clamp(20px, 6vw, 28px);
+    height: clamp(20px, 6vw, 28px);
+  }
+  .nav-item span {
+    font-size: clamp(10px, 3vw, 13px);
+  }
+}
 </style>
 </head>
 <body>
@@ -852,19 +923,21 @@
         </svg>
       </div>
 
-      <div class="name-row">
-        <div class="name-jp"><span id="homeDogName">モモ</span> <span class="name-en" id="homeDogNameEn">MOMO</span></div>
-        <div class="paw-side">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <ellipse cx="7" cy="8" rx="2.1" ry="2.8"/>
-            <ellipse cx="12" cy="6" rx="2.2" ry="3"/>
-            <ellipse cx="17" cy="8" rx="2.1" ry="2.8"/>
-            <path d="M12 12c-3 0-5.5 2.2-5.5 5 0 1.8 1.6 3 3.4 2.6.7-.2 1.4-.5 2.1-.5s1.4.3 2.1.5c1.8.4 3.4-.8 3.4-2.6 0-2.8-2.5-5-5.5-5z"/>
-          </svg>
+      <div class="dog-info-group">
+        <div class="name-row">
+          <div class="name-jp"><span id="homeDogName">モモ</span> <span class="name-en" id="homeDogNameEn">MOMO</span></div>
+          <div class="paw-side">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <ellipse cx="7" cy="8" rx="2.1" ry="2.8"/>
+              <ellipse cx="12" cy="6" rx="2.2" ry="3"/>
+              <ellipse cx="17" cy="8" rx="2.1" ry="2.8"/>
+              <path d="M12 12c-3 0-5.5 2.2-5.5 5 0 1.8 1.6 3 3.4 2.6.7-.2 1.4-.5 2.1-.5s1.4.3 2.1.5c1.8.4 3.4-.8 3.4-2.6 0-2.8-2.5-5-5.5-5z"/>
+            </svg>
+          </div>
         </div>
+        <div class="breed-row" id="homeDogBreed">FOX TERRIER</div>
+        <div class="last-walk" id="lastWalkInfo"></div>
       </div>
-      <div class="breed-row" id="homeDogBreed">FOX TERRIER</div>
-      <div class="last-walk" id="lastWalkInfo"></div>
 
       <div class="duration-row">
         <span class="duration-label" id="txt-duration-label">DURATION / 時間</span>
@@ -875,19 +948,20 @@
           <button class="dur-btn" data-min="60">60<span class="dur-unit">分</span></button>
         </div>
       </div>
-
-      <div class="swipe-wrap" id="swipeWrap">
-        <div class="swipe-thumb" id="swipeThumb">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" id="thumbIcon">
-            <ellipse cx="7" cy="8" rx="2.1" ry="2.8"/>
-            <ellipse cx="12" cy="6" rx="2.2" ry="3"/>
-            <ellipse cx="17" cy="8" rx="2.1" ry="2.8"/>
-            <path d="M12 12c-3 0-5.5 2.2-5.5 5 0 1.8 1.6 3 3.4 2.6.7-.2 1.4-.5 2.1-.5s1.4.3 2.1.5c1.8.4 3.4-.8 3.4-2.6 0-2.8-2.5-5-5.5-5z"/>
-          </svg>
-        </div>
-        <div class="swipe-text" id="swipeText">
-          <div class="jp" id="txt-swipe-jp">散歩完了！</div>
-          <div class="en" id="txt-swipe-en">SWIPE TO CONFIRM</div>
+      <div class="swipe-component">
+        <div class="swipe-wrap" id="swipeWrap">
+          <div class="swipe-thumb" id="swipeThumb">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" id="thumbIcon">
+              <ellipse cx="7" cy="8" rx="2.1" ry="2.8"/>
+              <ellipse cx="12" cy="6" rx="2.2" ry="3"/>
+              <ellipse cx="17" cy="8" rx="2.1" ry="2.8"/>
+              <path d="M12 12c-3 0-5.5 2.2-5.5 5 0 1.8 1.6 3 3.4 2.6.7-.2 1.4-.5 2.1-.5s1.4.3 2.1.5c1.8.4 3.4-.8 3.4-2.6 0-2.8-2.5-5-5.5-5z"/>
+            </svg>
+          </div>
+          <div class="swipe-text" id="swipeText">
+            <div class="jp" id="txt-swipe-jp">散歩完了！</div>
+            <div class="en" id="txt-swipe-en">SWIPE TO CONFIRM</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1515,7 +1589,7 @@ homeView.addEventListener('touchend', () => { swiping = false; });
   const trackPadding = 4;
   const thumbSize = 50;
 
-  function getMaxX() { return wrap.clientWidth - thumbSize - trackPadding; }
+  function getMaxX() { return wrap.clientWidth - thumb.clientWidth - trackPadding; }
 
   function setThumbX(x, animate) {
     thumb.style.transition = animate ? 'left 0.25s ease' : 'none';
