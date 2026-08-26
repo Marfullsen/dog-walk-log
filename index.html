@@ -708,18 +708,24 @@
   }
 
   @media (max-width: 500px) {
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100dvh;
+      margin: 0;
+      overflow: hidden;
+    }
     .phone {
       width: 100vw;
-      height: 100vh;
+      transform: scale(var(--phone-scale, 1));
+      transform-origin: center center;
       border-radius: 0;
       border: none;
       box-shadow: none;
     }
     .status-bar {
       display: none;
-    }
-    body {
-      display: block; /* remove the centering that assumes a smaller floating frame */
     }
   }
 </style>
@@ -1806,6 +1812,14 @@ homeView.addEventListener('touchend', () => { swiping = false; });
   }
   setInterval(updateClock, 1000);
   updateClock();
+
+  function scalePhone() {
+    const phone = document.querySelector('.phone');
+    const scale = Math.min(window.innerWidth / 320, window.innerHeight / 660);
+    document.documentElement.style.setProperty('--phone-scale', scale);
+  }
+  window.addEventListener('resize', scalePhone);
+  window.addEventListener('load', scalePhone);
 
   // =====================
   // INIT
