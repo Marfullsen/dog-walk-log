@@ -707,22 +707,19 @@
     .swipe-thumb, .swipe-text, .view, .modal-overlay { transition: none; animation: none; }
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100dvh;
-      margin: 0;
-      overflow: hidden;
+      display: block;
     }
+
     .phone {
-      width: 100vw;
-      transform: scale(var(--phone-scale, 1));
-      transform-origin: center center;
       border-radius: 0;
       border: none;
       box-shadow: none;
+      transform: scale(1.3);
+      transform-origin: 0 0;
+      width:77%;
+      height: 77%;
     }
     .status-bar {
       display: none;
@@ -1812,14 +1809,6 @@ homeView.addEventListener('touchend', () => { swiping = false; });
   }
   setInterval(updateClock, 1000);
   updateClock();
-
-  function scalePhone() {
-    const phone = document.querySelector('.phone');
-    const scale = Math.min(window.innerWidth / 320, window.innerHeight / 660);
-    document.documentElement.style.setProperty('--phone-scale', scale);
-  }
-  window.addEventListener('resize', scalePhone);
-  window.addEventListener('load', scalePhone);
 
   // =====================
   // INIT
