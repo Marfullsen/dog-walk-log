@@ -47,6 +47,13 @@
     flex-direction: column;
   }
 
+  .swipe-component {
+    height: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   /* Status bar */
   .status-bar {
     display: flex;
@@ -156,6 +163,12 @@
   .dog-switcher-add:hover { background: var(--background-deep); }
 
   /* View system */
+
+  #view-container {
+    transform-origin: top center;
+    transition: transform 0.2s ease, width 0.2s ease;
+  }
+
   .view-container {
     flex: 1;
     overflow-y: auto;
@@ -341,7 +354,7 @@
 
   /* Swipe button */
   .swipe-wrap {
-    margin: 14px 22px 0;
+    /* margin: 14px 22px 0; */
     position: relative;
     height: 58px;
     background: var(--accent);
@@ -351,6 +364,7 @@
     overflow: hidden;
     box-shadow: 0 6px 14px rgba(207,138,85,0.4);
     user-select: none;
+    width: calc(100% - 44px);
   }
 
   .swipe-text {
@@ -716,13 +730,15 @@
   }
   .phone {
     width: 100%;
-    height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    height: 100dvh;
     border-radius: 0;
     border: none;
     box-shadow: none;
   }
+  .status-bar {
+    display: none;
+  }
 
-  /* Fluid scaling: elements grow smoothly based on screen width, but cap at a max size */
   .title-jp { font-size: clamp(32px, 9vw, 42px); }
   .title-en { font-size: clamp(18px, 3.5vw, 18px); }
 
@@ -749,19 +765,16 @@
   }
   .dog-svg { width: clamp(240px, 70vw, 320px); }
 
-  .name-jp { font-size: clamp(24px, 7vw, 32px); }
-  .name-en { font-size: clamp(20px, 3.5vw, 16px); }
-
   .dur-btn {
     height: clamp(36px, 10vw, 48px);
     font-size: clamp(13px, 3.5vw, 16px);
   }
 
-  .swipe-component {
-    /* centrar */
-  }
+  /* .swipe-component {
+    height: stretch;
+  } */
 
-  .swipe-wrap { height: clamp(70px, 18vw, 90px); border-radius: 999px; }
+  .swipe-wrap { height: clamp(70px, 18vw, 90px); border-radius: 999px; width: calc(100% - 44px); }
   .swipe-thumb {
     width: clamp(62px, 16vw, 82px);
     height: clamp(62px, 16vw, 82px);
@@ -769,12 +782,11 @@
   .swipe-text .jp { font-size: clamp(18px, 5vw, 22px); }
   .swipe-text .en { font-size: clamp(14px, 2.5vw, 12px); }
 
-  .dog-info-group { gap: clamp(8px, 2.5vw, 15px); }
   .name-jp { font-size: clamp(30px, 8.5vw, 40px); }
   .name-en { font-size: clamp(15px, 4vw, 20px); }
   .paw-side svg { width: clamp(22px, 6vw, 28px); height: clamp(22px, 6vw, 28px); }
-  .breed-row { font-size: clamp(18px, 3vw, 14px); }
-  .last-walk { font-size: clamp(18px, 3.5vw, 16px); }
+  .breed-row { font-size: clamp(14px, 3vw, 18px); }
+  .last-walk { font-size: clamp(16px, 3.5vw, 18px); }
 
   .dog-info-group {
     display: flex;
@@ -794,6 +806,17 @@
   }
   .nav-item span {
     font-size: clamp(10px, 3vw, 13px);
+  }
+
+  .title-jp {
+    font-size: calc(clamp(32px, 9vw, 42px) * var(--zoom-factor, 1));
+  }
+  .name-jp {
+    font-size: calc(clamp(24px, 7vw, 32px) * var(--zoom-factor, 1));
+  }
+  .dur-btn {
+    font-size: calc(clamp(13px, 3.5vw, 16px) * var(--zoom-factor, 1));
+    height: calc(clamp(36px, 10vw, 48px) * var(--zoom-factor, 1));
   }
 }
 </style>
@@ -854,12 +877,16 @@
       <div class="setting-label" id="txt-label-theme">カラーテーマ / THEME</div>
       <select class="setting-select" id="inputTheme" onchange="onThemeChange()"></select>
     </div>
+    <div class="setting-item">
+      <div class="setting-label" id="txt-label-zoom">ズーム / ZOOM</div>
+      <select class="setting-select" id="inputZoom" onchange="onZoomChange()"></select>
+    </div>
     <button class="setting-btn btn-danger" onclick="clearAllData()" id="txt-btn-reset">データをリセット / RESET DATA</button>
     <div class="setting-note">Dog Walk Log v1.1</div>
   </div>
 
   <!-- Views -->
-  <div class="view-container">
+  <div class="view-container" id="viewContainer">
 
     <!-- HOME VIEW -->
     <div id="view-home" class="view active">
@@ -1356,7 +1383,7 @@
     if (raw) { try { data = JSON.parse(raw); } catch(e) {} }
 
     if (!data) {
-      data = { dogs: [
+      data = { zoom:'normal', dogs: [
         { id: 1, nameJp: 'スパイク', nameEn: 'Spike', breed: 'FOX TERRIER', avatarIndex: 0, walks: []},
         { id: 2, nameJp: 'モモ', nameEn: 'MOMO', breed: 'MIXED BREED', avatarIndex: 1, walks: [] },
         { id: 3, nameJp: 'ポチ', nameEn: 'POCHI', breed: 'MIXED BREED', avatarIndex: 2, walks: []},
@@ -1365,7 +1392,7 @@
       lang: 'ja',
       theme: 'warm' };
     } else if (!data.dogs) {
-    data = {
+    data = { zoom:'normal',
       dogs: [{ id: 1, nameJp: data.dogNameJp || 'モモ', nameEn: data.dogNameEn || 'MOMO',
                 breed: data.dogBreed || 'FOX TERRIER', avatarIndex: data.avatarIndex || 0, walks: data.walks || [] }],
       activeDogId: 1, lang: data.lang || 'ja', theme: data.theme || 'warm'
@@ -1818,6 +1845,32 @@ homeView.addEventListener('touchend', () => { swiping = false; });
   // SETTINGS VIEW
   // =====================
 
+  const ZOOM_LEVELS = {
+    compact: { label: 'Compact', value: 0.85 },
+    normal:  { label: 'Normal', value: 1 },
+    large:   { label: 'Large', value: 1.15 },
+    xlarge:  { label: 'Extra Large', value: 1.3 }
+  };
+
+  function applyZoom(name) {
+    const zoom = (ZOOM_LEVELS[name] || ZOOM_LEVELS.normal).value;
+    document.documentElement.style.setProperty('--zoom-factor', zoom);
+  }
+
+  function renderZoomOptions() {
+    const select = document.getElementById('inputZoom');
+    select.innerHTML = Object.keys(ZOOM_LEVELS).map(key =>
+      `<option value="${key}">${ZOOM_LEVELS[key].label}</option>`
+    ).join('');
+    select.value = appData.zoom;
+  }
+
+  function onZoomChange() {
+    appData.zoom = document.getElementById('inputZoom').value;
+    saveData(appData);
+    applyZoom(appData.zoom);
+  }
+
   function cycleTheme() {
     const keys = Object.keys(THEMES);
     const currentIndex = keys.indexOf(appData.theme);
@@ -1835,6 +1888,7 @@ homeView.addEventListener('touchend', () => { swiping = false; });
   function openSidenav() {
     document.getElementById('inputLang').value = appData.lang;
     renderThemeOptions();
+    renderZoomOptions();
     document.getElementById('sidenav').classList.add('active');
     document.getElementById('sidenavOverlay').classList.add('active');
   }
@@ -1890,6 +1944,7 @@ homeView.addEventListener('touchend', () => { swiping = false; });
   window.addEventListener('load', () => {
     applyTheme(appData.theme);
     applyLang();
+    applyZoom(appData.zoom);
     setThumbX(trackPadding, false);
     updateHome();
     renderCalendar();
