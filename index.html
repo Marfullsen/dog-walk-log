@@ -729,6 +729,60 @@
   .nav-item.active { opacity: 1; }
   .nav-item span { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
 
+  /* hint bubble */
+  .hint-bubble {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: var(--background);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 20px;
+    white-space: normal;
+    min-width: 240px;
+    /* max-width: 220px; */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    z-index: 30;
+    opacity: 0;
+    pointer-events: none;
+    animation: hint-appear 4.5s ease forwards;
+  }
+  .hint-bubble.active {
+    pointer-events: auto;
+  }
+  .hint-bubble .hint-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .hint-arrow {
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    background: var(--navy);
+    border-radius: 0 0 4px 0;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  @keyframes hint-appear {
+    0%   { opacity: 0; transform: translateX(-50%) translateY(10px) scale(0.85); }
+    8%   { opacity: .9; transform: translateX(-50%) translateY(-4px) scale(1.03); }
+    14%  { transform: translateX(-50%) translateY(0) scale(1); }
+    20%  { transform: translateX(-50%) translateY(-3px) scale(1); }
+    26%  { transform: translateX(-50%) translateY(0) scale(1); }
+    88%  { opacity: .9; transform: translateX(-50%) translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(6px) scale(0.9); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .swipe-thumb, .swipe-text, .view, .modal-overlay { transition: none; animation: none; }
   }
@@ -960,6 +1014,18 @@
             <path d="M44 48 Q52 42 60 48" stroke="#2b3a52" stroke-width="2" fill="none" stroke-linecap="round"/>
           </g>
         </svg>
+        <div class="hint-bubble" id="hintBubble">
+          <span class="hint-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <ellipse cx="7" cy="8" rx="2.1" ry="2.8"/>
+              <ellipse cx="12" cy="6" rx="2.2" ry="3"/>
+              <ellipse cx="17" cy="8" rx="2.1" ry="2.8"/>
+              <path d="M12 12c-3 0-5.5 2.2-5.5 5 0 1.8 1.6 3 3.4 2.6.7-.2 1.4-.5 2.1-.5s1.4.3 2.1.5c1.8.4 3.4-.8 3.4-2.6 0-2.8-2.5-5-5.5-5z"/>
+            </svg>
+          </span>
+          <span id="txt-hint">ダブルタップして詳細を表示 / Double-tap to reveal more</span>
+          <div class="hint-arrow"></div>
+        </div>
       </div>
 
       <div class="dog-info-group">
@@ -1207,7 +1273,8 @@
       'nav-txt-set': 'プロフィール', 'txt-set-title': 'プロフィール', 'txt-set-sub': 'PROFILE',
       'txt-btn-delete-dog': 'この犬を削除 / DELETE DOG',
       'confirm-delete-dog': 'を削除しますか？すべての散歩記録も削除されます。',
-      'alert-last-dog': '最後の1匹は削除できません'
+      'alert-last-dog': '最後の1匹は削除できません',
+      'txt-hint': 'ダブルタップして詳細を表示 / Double-tap to reveal more',
     },
     en: {
       'txt-home-title': 'Today\'s Walk', 'txt-home-sub': 'WALK LOG',
@@ -1234,7 +1301,8 @@
       'nav-txt-set': 'PROFILE', 'txt-set-title': 'Profile', 'txt-set-sub': 'DOG INFO',
       'txt-btn-delete-dog': 'DELETE DOG',
       'confirm-delete-dog': 'Delete this dog? All its walk logs will be deleted too.',
-      'alert-last-dog': "You can't delete your only dog."
+      'alert-last-dog': "You can't delete your only dog.",
+      'txt-hint': 'Double-tap the dog to reveal more'
     }
   };
 
@@ -1967,12 +2035,27 @@ homeView.addEventListener('touchend', () => { swiping = false; });
     }
   });
 
+  // seen bubble
+  function maybeShowHint() {
+    if (localStorage.getItem('dogwalk-hint-seen')) return;
+
+    const bubble = document.getElementById('hintBubble');
+    bubble.classList.add('active');
+    localStorage.setItem('dogwalk-hint-seen', 'true');
+
+    // remove from DOM flow after the fade-out animation finishes, so it doesn't block taps
+    setTimeout(() => {
+      bubble.remove();
+    }, 4200);
+  }
+
   // =====================
   // INIT
   // =====================
   window.addEventListener('load', () => {
     applyTheme(appData.theme);
     applyLang();
+    maybeShowHint();
     applyZoom(appData.zoom);
     setThumbX(trackPadding, false);
     updateHome();
