@@ -466,7 +466,15 @@
     background: var(--secondary-deep);
     box-shadow: 0 6px 14px rgba(125,148,104,0.45);
   }
-  .swipe-wrap.completed .swipe-thumb { color: var(--secondary-deep); }
+
+  @keyframes thumb-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.85; }
+  }
+  .swipe-wrap.completed .swipe-thumb {
+    color: var(--secondary-deep);
+    animation: thumb-pulse 1.8s ease-in-out infinite;
+  }
 
   /* Logs View */
   .stats-row {
