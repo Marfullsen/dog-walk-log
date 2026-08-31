@@ -98,11 +98,26 @@
   }
 
   .menu-icon {
-    width: 22px; height: 16px;
-    display: flex; flex-direction: column; justify-content: space-between;
+    width: 22px;
+    height: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     cursor: pointer;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    color: inherit;
   }
-  .menu-icon span { display:block; height: 2.5px; background: var(--primary); border-radius: 2px; }
+  .menu-icon span {
+    display: block;
+    height: 2.5px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
 
   .sidenav-overlay {
   position: absolute; inset: 0; background: rgba(43,58,82,0.45);
@@ -977,7 +992,7 @@
 
   <!-- Menu + paw badge -->
   <div class="top-row">
-    <div class="menu-icon" onclick="openSidenav()"><span></span><span></span><span></span></div>
+    <button class="menu-icon" id="menuIcon" aria-label="Open menu" type="button"><span></span><span></span><span></span></button>
     <div class="theme-icon" onclick="cycleTheme()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.1 0 2-.9 2-2 0-.5-.2-.95-.52-1.29-.3-.32-.48-.76-.48-1.21 0-1 .81-1.5 1.81-1.5H17c2.76 0 5-2.24 5-5C22 6.03 17.52 2 12 2z"/>
@@ -2053,6 +2068,8 @@
     document.getElementById('sidenav').classList.remove('active');
     document.getElementById('sidenavOverlay').classList.remove('active');
   }
+
+  document.getElementById('menuIcon').addEventListener('click', openSidenav);
 
   function loadSettings() {
     document.getElementById('inputNameJp').value = getActiveDog().nameJp;
