@@ -2180,6 +2180,13 @@
     }
   }
 
+  // ===================================
+  // Reduced motion for CSS transitions.
+  // ===================================
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced) playConfetti();
+
   // =====================
   // INIT
   // =====================
