@@ -1814,7 +1814,7 @@
     text.style.opacity = 0;
 
     playJumpAnimation();
-    playConfetti();
+    if (!prefersReduced) playConfetti();
 
     const now = new Date();
     const walk = {
@@ -2189,7 +2189,6 @@
   // ===================================
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!prefersReduced) playConfetti();
 
   // =====================
   // INIT
