@@ -34,6 +34,12 @@
     min-height: 100vh;
   }
 
+  .setting-note .github-link {
+    color: var(--accent-deep);
+    text-decoration: none;
+    font-weight: 700;
+  }
+
   .phone {
     width: 320px;
     height: 660px;
@@ -1041,7 +1047,10 @@
       <select class="setting-select" id="inputZoom" onchange="onZoomChange()"></select>
     </div>
     <button class="setting-btn btn-danger" onclick="clearAllData()" id="txt-btn-reset">データをリセット / RESET DATA</button>
-    <div class="setting-note">Dog Walk Log v1.1</div>
+    <div class="setting-note">
+      Dog Walk Log v1.1<br>
+      <a href="https://github.com/Marfullsen/dog-walk-log" target="_blank" rel="noopener noreferrer" class="github-link">View on GitHub</a>
+    </div>
   </div>
 
   <!-- Views -->
@@ -1235,7 +1244,10 @@
         </div>
         <button class="setting-btn btn-secondary" onclick="saveSettings()" id="txt-btn-save">プロフィールを保存 / SAVE</button>
         <button class="setting-btn btn-danger" onclick="deleteCurrentDog()" id="txt-btn-delete-dog">この犬を削除 / DELETE DOG</button>
-        <div class="setting-note">Dog Walk Log v1.1</div>
+        <div class="setting-note">
+          Dog Walk Log v1.1<br>
+          <a href="https://github.com/Marfullsen/dog-walk-log" target="_blank" rel="noopener noreferrer" class="github-link">View on GitHub</a>
+        </div>
       </div>
     </div>
 
