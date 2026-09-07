@@ -1295,6 +1295,30 @@
     </div>
   </div>
 
+  <!-- Add Dog Modal -->
+  <div class="modal-overlay" id="addDogModal">
+    <div class="modal-card" style="max-height: none;">
+      <button class="modal-close" onclick="closeAddDogModal()">×</button>
+      <div class="modal-title" id="txt-adddog-title">新しい犬を追加</div>
+      <div class="modal-sub" id="txt-adddog-sub">ADD A DOG</div>
+
+      <div class="setting-item">
+        <div class="setting-label" id="txt-adddog-name">名前 / NAME</div>
+        <input type="text" class="setting-input" id="addDogNameJp" maxlength="20" placeholder="ポチ">
+      </div>
+      <div class="setting-item">
+        <div class="setting-label" id="txt-adddog-nick">あだ名 / NICKNAME</div>
+        <input type="text" class="setting-input" id="addDogNameEn" maxlength="20" placeholder="POCHI">
+      </div>
+      <div class="setting-item">
+        <div class="setting-label" id="txt-adddog-breed">犬種 / BREED</div>
+        <input type="text" class="setting-input" id="addDogBreed" maxlength="20" placeholder="POODLE">
+      </div>
+
+      <button class="setting-btn btn-secondary" onclick="confirmAddDog()" id="txt-adddog-save">追加する / ADD</button>
+    </div>
+  </div>
+
   <!-- Bottom nav -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="switchView('home')" id="nav-home">
@@ -1369,6 +1393,10 @@
       'confirm-delete-dog': 'を削除しますか？すべての散歩記録も削除されます。',
       'alert-last-dog': '最後の1匹は削除できません',
       'txt-hint': 'ダブルタップして詳細を表示 / Double-tap to reveal more',
+      'txt-adddog-title': '新しい犬を追加', 'txt-adddog-sub': 'ADD A DOG',
+      'txt-adddog-name': '名前 / NAME', 'txt-adddog-nick': 'あだ名 / NICKNAME',
+      'txt-adddog-breed': '犬種 / BREED',
+      'txt-adddog-save': '追加する / ADD',
     },
     en: {
       'txt-home-title': 'Today\'s Walk', 'txt-home-sub': 'WALK LOG',
@@ -1396,7 +1424,11 @@
       'txt-btn-delete-dog': 'DELETE DOG',
       'confirm-delete-dog': 'Delete this dog? All its walk logs will be deleted too.',
       'alert-last-dog': "You can't delete your only dog.",
-      'txt-hint': 'Double-tap the dog to reveal more'
+      'txt-hint': 'Double-tap the dog to reveal more',
+      'txt-adddog-title': 'Add a Dog', 'txt-adddog-sub': 'NEW PROFILE',
+      'txt-adddog-name': 'NAME', 'txt-adddog-nick': 'NICKNAME',
+      'txt-adddog-breed': 'BREED',
+      'txt-adddog-save': 'ADD DOG',
     }
   };
 
@@ -1652,7 +1684,7 @@
     let html = appData.dogs.map(dog => `
       <div class="dog-switcher-item ${dog.id === appData.activeDogId ? 'active' : ''}" onclick="selectDog(${dog.id})">
         <div class="avatar-mini">${AVATARS[dog.avatarIndex] || AVATARS[0]}</div>
-        <div>${dog.nameJp}</div>
+        <div>${escapeHtml(dog.nameJp)}</div>
       </div>`).join('');
     html += `<div class="dog-switcher-divider"></div>
       <div class="dog-switcher-add" onclick="addDog()">+ ${appData.lang === 'en' ? 'Add Dog' : '犬を追加'}</div>`;
@@ -1670,18 +1702,43 @@
     resetSwipe();
   }
 
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+  }
+
   function addDog() {
-    const nameJp = prompt(appData.lang === 'en' ? 'Dog name:' : '名前', '');
-    if (nameJp === null) return;
-    const nameEn = prompt(appData.lang === 'en' ? 'Dog nickname:' : 'あだ名', '');
-    if (nameEn === null) return;
+    closeDogSwitcher();
+    document.getElementById('addDogNameJp').value = '';
+    document.getElementById('addDogNameEn').value = '';
+    document.getElementById('addDogBreed').value = '';
+    document.getElementById('addDogModal').classList.add('active');
+    applyLang(); // ensure modal labels match current language
+    setTimeout(() => document.getElementById('addDogNameJp').focus(), 50);
+  }
+
+  function closeAddDogModal() {
+    document.getElementById('addDogModal').classList.remove('active');
+  }
+
+  function confirmAddDog() {
+    const nameJp = document.getElementById('addDogNameJp').value.trim().slice(0, 20) || 'ポチ';
+    const nameEn = document.getElementById('addDogNameEn').value.trim().slice(0, 20) || 'POCHI';
+    const breed = document.getElementById('addDogBreed').value.trim().slice(0, 20) || 'SUPER BREED';
+
     const newId = Math.max(0, ...appData.dogs.map(d => d.id)) + 1;
-    const newDog = { id: newId, nameJp: nameJp.trim() || 'ポチ', nameEn: nameEn.trim() || 'POCHI',
-                      breed: 'MIXED BREED', avatarIndex: appData.dogs.length % AVATARS.length, walks: [] };
+    const newDog = {
+      id: newId, nameJp, nameEn,
+      breed: breed,
+      avatarIndex: appData.dogs.length % AVATARS.length,
+      walks: []
+    };
     appData.dogs.push(newDog);
     appData.activeDogId = newId;
     saveData(appData);
-    closeDogSwitcher();
+
+    closeAddDogModal();
     updateHome();
     document.getElementById('dogAvatar').innerHTML = AVATARS[newDog.avatarIndex];
     renderLogs();
