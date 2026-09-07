@@ -1442,6 +1442,7 @@
       const el = document.getElementById(key);
       if (el) el.textContent = dict[key];
     });
+    document.title = dict['txt-home-title'] || "Today's Walk";
     // Update done text if currently completed
     if (completed) {
       const dj = document.getElementById('txt-swipe-jp');
