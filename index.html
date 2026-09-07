@@ -1028,8 +1028,8 @@
     <div class="setting-item">
       <div class="setting-label" id="txt-label-lang">言語 / LANGUAGE</div>
       <select class="setting-select" id="inputLang" onchange="onLangChange()">
-        <option value="ja">日本語</option>
         <option value="en">English</option>
+        <option value="ja">日本語</option>
       </select>
     </div>
     <div class="setting-item">
@@ -1595,13 +1595,13 @@
         { id: 3, nameJp: 'ポチ', nameEn: 'POCHI', breed: 'MIXED BREED', avatarIndex: 2, walks: []},
       ],
       activeDogId: 1,
-      lang: 'ja',
+      lang: 'en',
       theme: 'warm' };
     } else if (!data.dogs) {
     data = { zoom:'normal',
       dogs: [{ id: 1, nameJp: data.dogNameJp || 'モモ', nameEn: data.dogNameEn || 'MOMO',
                 breed: data.dogBreed || 'FOX TERRIER', avatarIndex: data.avatarIndex || 0, walks: data.walks || [] }],
-      activeDogId: 1, lang: data.lang || 'ja', theme: data.theme || 'warm'
+      activeDogId: 1, lang: data.lang || 'en', theme: data.theme || 'warm'
     };
   }
   return data;
